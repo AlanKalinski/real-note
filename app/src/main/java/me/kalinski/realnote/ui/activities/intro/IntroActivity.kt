@@ -4,70 +4,81 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import com.google.android.gms.auth.api.Auth
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.common.ConnectionResult
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_intro.*
+import me.kalinski.firebaseauth.listeners.AuthorizationListener
+import me.kalinski.firebaseauth.components.Authentication
+import me.kalinski.firebaseauth.components.GoogleAuthentication
 import me.kalinski.realnote.R
 import org.jetbrains.anko.indeterminateProgressDialog
-import timber.log.Timber
+import org.jetbrains.anko.toast
 
 class IntroActivity : AppCompatActivity(), IntroView {
-    private val RC_SIGN_IN = 9001
-    private val progress by lazy { indeterminateProgressDialog("Czekaj...") }
+    private val progress by lazy { indeterminateProgressDialog(getString(R.string.wait)) }
 
     private val presenter: IIntroPresenter by lazy {
         IntroPresenter(this)
     }
 
-    private val googleApiClient by lazy {
-        GoogleApiClient.Builder(this)
-                .enableAutoManage(this) { error ->
-                    run {
-                        //TODO Error handling
-                        Timber.w(error.toString())
-                    }
-                }
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build()
-    }
-
-    private val gso by lazy {
-        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build()
-    }
+    private var authorizationModule: Authentication? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
 
-        btnSignIn.setOnClickListener { performSignIn() }
-        btnSignOut.setOnClickListener { signOut() }
-        btnDisconnect.setOnClickListener { disconnect() }
+        authorizationModule = GoogleAuthentication(this, authorizationListener(), getString(R.string.default_web_client_id))
+
+        btnSignIn.setOnClickListener {
+            showProgress()
+            authorizationModule?.signIn()
+        }
+        btnSignOut.setOnClickListener {
+            showProgress()
+            authorizationModule?.signOut()
+        }
+        btnDisconnect.setOnClickListener {
+            showProgress()
+            authorizationModule?.signOut()
+        }
+    }
+
+    private fun authorizationListener(): AuthorizationListener = object : AuthorizationListener {
+        override fun onError(error: ConnectionResult) {
+            showError()
+        }
+
+        override fun loggedOut() {
+            showNotLoggedIn()
+        }
+
+        override fun signedIn(it: FirebaseUser) {
+            setUserName(it.displayName)
+        }
+    }
+
+    private fun showError() {
+        hideProgress()
+        toast(getString(R.string.error_log_in))
     }
 
     override fun onStart() {
         super.onStart()
-        googleApiClient
         presenter.checkUser()
     }
 
     override fun setUserName(displayName: String?) {
         hideProgress()
-        status.text = String.format("Zalogowano jako: %s", displayName)
+        status.text = String.format(getString(R.string.logged_as), displayName)
+        btnSignInVisibility(false)
+        btnSignOutVisibility(true)
     }
 
     override fun showNotLoggedIn() {
         hideProgress()
-        status.text = String.format("Użytkownik niezalogowany")
-    }
-
-    override fun performSignIn() {
-        showProgress()
-        val signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient)
-        startActivityForResult(signInIntent, RC_SIGN_IN)
+        status.text = String.format(getString(R.string.not_logged))
+        btnSignInVisibility(true)
+        btnSignOutVisibility(false)
     }
 
     override fun showProgress() {
@@ -78,26 +89,6 @@ class IntroActivity : AppCompatActivity(), IntroView {
         progress.hide()
     }
 
-    override fun signOut() {
-        showProgress()
-        presenter.signOut()
-    }
-
-    override fun disconnect() {
-        showProgress()
-        presenter.revokeAccess()
-    }
-
-    override fun revokeAccess() {
-        Auth.GoogleSignInApi.revokeAccess(googleApiClient).setResultCallback { presenter.showNotLogged() }
-    }
-
-    override fun googleApiSignOut() {
-        if (googleApiClient.isConnected) {
-            Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback { presenter.showNotLogged() }
-        }
-    }
-
     override fun btnSignInVisibility(enable: Boolean) {
         btnSignIn.visibility = if (enable) View.VISIBLE else View.GONE
     }
@@ -106,17 +97,7 @@ class IntroActivity : AppCompatActivity(), IntroView {
         signOutAndDisconnect.visibility = if (enable) View.VISIBLE else View.GONE
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == RC_SIGN_IN) {
-            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
-            if (result.isSuccess) {
-                val account = result.signInAccount
-                account?.let { presenter.firebaseAuthWithGoogle(account) } ?: run { presenter.showNotLogged() }
-            } else {
-                presenter.showNotLogged()
-            }
-        }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        data?.let { authorizationModule?.recognizeActivityResult(requestCode, resultCode, data) }
     }
 }

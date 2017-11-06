@@ -14,12 +14,12 @@ class IntroPresenter constructor(val view: IntroView) : IIntroPresenter {
 
     override fun signOut() {
         interactor.signOut()
-        view.googleApiSignOut()
+//        view.googleApiSignOut()
     }
 
     override fun revokeAccess() {
         interactor.signOut()
-        view.revokeAccess()
+//        view.revokeAccess()
     }
 
     override fun checkUser() {
@@ -46,6 +46,5 @@ class IntroPresenter constructor(val view: IntroView) : IIntroPresenter {
         override fun authSuccessful() {
             checkUser()
         }
-
     }
 }
