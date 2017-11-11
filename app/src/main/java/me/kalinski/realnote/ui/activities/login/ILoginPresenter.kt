@@ -1,8 +1,9 @@
-package me.kalinski.realnote.ui.activities.intro
+package me.kalinski.realnote.ui.activities.login
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import me.kalinski.realnote.di.base.BaseMvp
 
-interface IIntroPresenter {
+interface ILoginPresenter : BaseMvp.MvpPresenter<LoginView> {
     interface IntroInteractorListener {
         fun authSuccessful()
         fun authFailed()

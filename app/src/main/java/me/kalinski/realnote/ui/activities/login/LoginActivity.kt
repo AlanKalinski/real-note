@@ -1,25 +1,25 @@
-package me.kalinski.realnote.ui.activities.intro
+package me.kalinski.realnote.ui.activities.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.google.android.gms.common.ConnectionResult
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_intro.*
-import me.kalinski.firebaseauth.listeners.AuthorizationListener
 import me.kalinski.firebaseauth.components.Authentication
 import me.kalinski.firebaseauth.components.GoogleAuthentication
+import me.kalinski.firebaseauth.listeners.AuthorizationListener
 import me.kalinski.realnote.R
+import me.kalinski.realnote.di.activities.BaseActivity
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.toast
+import javax.inject.Inject
 
-class IntroActivity : AppCompatActivity(), IntroView {
+class LoginActivity : BaseActivity(), LoginView {
+
     private val progress by lazy { indeterminateProgressDialog(getString(R.string.wait)) }
 
-    private val presenter: IIntroPresenter by lazy {
-        IntroPresenter(this)
-    }
+    @Inject lateinit var presenter: ILoginPresenter
 
     private var authorizationModule: Authentication? = null
 
@@ -95,6 +95,10 @@ class IntroActivity : AppCompatActivity(), IntroView {
 
     override fun btnSignOutVisibility(enable: Boolean) {
         signOutAndDisconnect.visibility = if (enable) View.VISIBLE else View.GONE
+    }
+
+    override fun showMessage(message: String) {
+        toast(message)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -43,7 +43,6 @@ ext {
     rxandroid = '2.0.1'
     simplexml = '2.3.0'
     dagger = '2.12'
-    javax = '10.0-b28'
     glide = '3.7.0'
     glideTransform = '2.0.2'
 

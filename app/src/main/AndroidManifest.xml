@@ -8,14 +8,16 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".config.RealNoteApp"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activities.intro.IntroActivity">
+        <activity android:name=".ui.activities.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name=".services.firebase.FirebaseIdService" />
     </application>
 
 </manifest>

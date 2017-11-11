@@ -1,12 +1,20 @@
-package me.kalinski.realnote.ui.activities.intro
+package me.kalinski.realnote.ui.activities.login
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import javax.inject.Inject
 
-class IntroInteractor constructor(val listener: IIntroPresenter.IntroInteractorListener) : IIntroInteractor {
+class LoginInteractor @Inject constructor() : ILoginInteractor {
+
+    private var listener: ILoginPresenter.IntroInteractorListener? = null
+
     val auth: FirebaseAuth by lazy {
         FirebaseAuth.getInstance()
+    }
+
+    override fun setListener(listener: ILoginPresenter.IntroInteractorListener) {
+        this.listener = listener
     }
 
     override fun signOut() {
@@ -20,9 +28,9 @@ class IntroInteractor constructor(val listener: IIntroPresenter.IntroInteractorL
         auth.signInWithCredential(credential)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        listener.authSuccessful()
+                        listener?.authSuccessful()
                     } else {
-                        listener.authFailed()
+                        listener?.authFailed()
                     }
                 }
     }

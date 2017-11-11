@@ -1,6 +1,8 @@
-package me.kalinski.realnote.ui.activities.intro
+package me.kalinski.realnote.ui.activities.login
 
-interface IntroView {
+import me.kalinski.realnote.di.base.BaseMvp
+
+interface LoginView : BaseMvp.MvpView {
     fun setUserName(displayName: String?)
     fun showNotLoggedIn()
     fun btnSignInVisibility(enable: Boolean)
