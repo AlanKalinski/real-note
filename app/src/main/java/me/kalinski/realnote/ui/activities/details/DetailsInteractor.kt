@@ -1,4 +1,6 @@
 package me.kalinski.realnote.ui.activities.details
 
-class DetailsInteractor : IDetailsInteractor {
+import javax.inject.Inject
+
+class DetailsInteractor @Inject constructor() : IDetailsInteractor {
 }
