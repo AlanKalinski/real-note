@@ -10,7 +10,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$gradle_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.google.gms:google-services:$gms_version"
+        classpath 'com.google.gms:google-services:3.1.0'
     }
 }
 
@@ -29,8 +29,8 @@ ext {
     compileSdk = 26
     buildTools = '27.0.0'
 
-    supportLibrary = '27.0.0'
-    firebase = '11.4.2'
+    supportLibrary = '27.0.1'
+    firebase = '11.6.0'
     ankoVersion = '0.10.1'
     constraint = '1.0.2'
 

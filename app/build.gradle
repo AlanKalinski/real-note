@@ -44,6 +44,8 @@ dependencies {
 
     implementation "com.google.firebase:firebase-core:$rootProject.firebase"
     implementation "com.google.firebase:firebase-auth:$rootProject.firebase"
+    implementation "com.google.firebase:firebase-database:$rootProject.firebase"
+    implementation "com.google.firebase:firebase-storage:$rootProject.firebase"
     implementation "com.google.android.gms:play-services-auth:$rootProject.firebase"
 
     // Support Libraries
