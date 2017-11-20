@@ -11,6 +11,8 @@ import me.kalinski.firebaseauth.components.GoogleAuthentication
 import me.kalinski.firebaseauth.listeners.AuthorizationListener
 import me.kalinski.realnote.R
 import me.kalinski.realnote.di.activities.BaseActivity
+import me.kalinski.realnote.ui.activities.main.MainActivity
+import me.kalinski.utils.extensions.navigate
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.toast
 import javax.inject.Inject
@@ -53,7 +55,7 @@ class LoginActivity : BaseActivity(), LoginView {
         }
 
         override fun signedIn(it: FirebaseUser) {
-            setUserName(it.displayName)
+            setUser(it)
         }
     }
 
@@ -67,11 +69,14 @@ class LoginActivity : BaseActivity(), LoginView {
         presenter.checkUser()
     }
 
-    override fun setUserName(displayName: String?) {
+    override fun setUser(user: FirebaseUser) {
         hideProgress()
-        status.text = String.format(getString(R.string.logged_as), displayName)
+        status.text = String.format(getString(R.string.logged_as), user.displayName)
         btnSignInVisibility(false)
         btnSignOutVisibility(true)
+
+        navigate<MainActivity>()
+        finish()
     }
 
     override fun showNotLoggedIn() {
@@ -98,6 +103,10 @@ class LoginActivity : BaseActivity(), LoginView {
     }
 
     override fun showMessage(message: String) {
+        toast(message)
+    }
+
+    override fun showMessage(message: Int) {
         toast(message)
     }
 

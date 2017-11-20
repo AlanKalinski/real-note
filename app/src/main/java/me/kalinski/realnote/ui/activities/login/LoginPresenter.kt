@@ -45,7 +45,7 @@ class LoginPresenter @Inject constructor(val interactor: ILoginInteractor) : ILo
 
     override fun checkUser() {
         interactor.getCurrentUser()?.let {
-            view?.setUserName(it.displayName)
+            view?.setUser(it)
             view?.btnSignInVisibility(false)
             view?.btnSignOutVisibility(true)
         } ?: run {
