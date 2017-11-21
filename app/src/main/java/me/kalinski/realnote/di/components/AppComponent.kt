@@ -30,14 +30,14 @@ import me.kalinski.realnote.di.scope.ApplicationScope
 @ApplicationScope
 interface AppComponent : AndroidInjector<DaggerApplication> {
 
-    val application: Application
+    val application: RealNoteApp
     fun authInterceptor(): AuthInterceptor
 
     @Component.Builder
     interface Builder {
         fun build(): AppComponent
         @BindsInstance
-        fun application(app: Application): Builder
+        fun application(app: RealNoteApp): Builder
     }
 
     fun inject(app: RealNoteApp)

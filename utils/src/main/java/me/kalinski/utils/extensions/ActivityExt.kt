@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
+import android.support.v4.util.Pair
 import android.view.View
 import android.widget.Toast
 
@@ -11,17 +12,23 @@ fun Activity.toast(message: String, duration: Int = Toast.LENGTH_LONG) {
     Toast.makeText(this, message, duration).show()
 }
 
-inline fun <reified T : Activity> Activity.navigate(id: String? = null, sharedView: View? = null,
-                                                    transitionName: String? = null) {
+inline fun <reified T : Activity> Activity.navigate(
+        id: String? = null,
+        sharedObjects: Intent? = null,
+        vararg sharedElements: Pair<View, String>
+) {
     val intent = Intent(this, T::class.java)
     id?.let {
         intent.putExtra("id", id)
     }
 
-    var options: ActivityOptionsCompat? = null
+    sharedObjects?.let {
+        intent.putExtras(it)
+    }
 
-    if (sharedView != null && transitionName != null) {
-        options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, sharedView, transitionName)
+    var options: ActivityOptionsCompat? = null
+    if (sharedElements.isNotEmpty()) {
+        options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, *sharedElements)
     }
 
     ActivityCompat.startActivity(this, intent, options?.toBundle())
