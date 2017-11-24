@@ -4,8 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.util.Pair
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.Toolbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.row_note.*
+import me.kalinski.realnote.R
 import me.kalinski.realnote.R.layout.activity_main
 import me.kalinski.realnote.di.activities.BaseActivity
 import me.kalinski.realnote.storage.data.Note
@@ -35,10 +37,19 @@ class MainActivity : BaseActivity(), MainView {
         NotesListAdapter(onRowClickLIstener())
     }
 
+    private var toolbar: Toolbar? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(activity_main)
         presenter.attachView(this)
+
+        toolbar = setupToolbar(
+                toolbarId = R.id.toolbar,
+                visible = true,
+                backArrowEnabled = true,
+                title = getString(R.string.main_activity_title)
+        )
 
         initViewComponents()
         requestForNotes()
@@ -49,7 +60,9 @@ class MainActivity : BaseActivity(), MainView {
     }
 
     private fun initViewComponents() {
-        btnAdd.setOnClickListener { navigate<AddNoteActivity>() }
+        btnAdd.setOnClickListener {
+            navigate<AddNoteActivity>(sharedElements = Pair.create(btnAdd, btnAdd.transitionName))
+        }
         noteList
     }
 

@@ -6,38 +6,15 @@
     android:layout_height="wrap_content"
     android:background="@color/appBackground">
 
-    <android.support.design.widget.AppBarLayout
+    <include
         android:id="@+id/bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary" />
-
-    </android.support.design.widget.AppBarLayout>
+        layout="@layout/appbar_layout" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="4dp"
         android:layout_below="@id/bar">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="4dp">
-
-            <TextView
-                android:id="@+id/noteTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="4dp"
-                android:textSize="18sp"
-                android:transitionName="noteTitle"
-                tools:text="Sample title" />
 
             <TextView
                 android:id="@+id/noteDescription"
@@ -49,7 +26,5 @@
                 android:transitionName="noteDescription"
                 app:layout_constraintTop_toBottomOf="@+id/noteTitle"
                 tools:text="Sample desc" />
-        </LinearLayout>
-
     </ScrollView>
 </RelativeLayout>

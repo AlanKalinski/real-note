@@ -5,6 +5,8 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
+import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import dagger.android.AndroidInjection
@@ -32,7 +34,6 @@ abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector, B
         val view = window.decorView.findViewById<View>(android.R.id.content)
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(view, InputMethodManager.SHOW_FORCED)
-
     }
 
     open fun hideKeyboard() {
@@ -45,7 +46,38 @@ abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector, B
         AndroidInjection.inject(this)
     }
 
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
-        return injector
+    fun setupToolbar(toolbarId: Int, visible: Boolean = false, title: Any? = null, backArrowEnabled: Boolean = false, resId: Int? = null): Toolbar? {
+        val myToolbar = findViewById<Toolbar>(toolbarId)
+        myToolbar.let {
+            if (supportActionBar == null) {
+                setSupportActionBar(myToolbar)
+            }
+
+            supportActionBar?.apply {
+                setDisplayShowHomeEnabled(backArrowEnabled)
+                setDisplayHomeAsUpEnabled(backArrowEnabled)
+
+                if (resId != null) this.setIcon(resId)
+
+                when (title) {
+                    is Int -> supportActionBar?.title = resources.getText(title)
+                    is String -> supportActionBar?.title = title
+                }
+
+                if (visible) show() else hide()
+            }
+        }
+
+        return myToolbar
     }
+
+    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
+        android.R.id.home -> {
+            onBackPressed()
+            true
+        }
+        else -> true
+    }
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> = injector
 }

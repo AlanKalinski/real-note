@@ -45,6 +45,8 @@ ext {
     dagger = '2.12'
     glide = '3.7.0'
     glideTransform = '2.0.2'
+    materialEdit = '2.1.4'
+    richEdit = '1.2.2'
 
     junit = '4.12'
     mockito = '2.12.0'

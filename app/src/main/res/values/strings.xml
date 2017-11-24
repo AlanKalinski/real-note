@@ -4,5 +4,8 @@
     <string name="wait">Czekaj...</string>
     <string name="logged_as">Zalogowano jako: %s</string>
     <string name="not_logged">Użytkownik niezalogowany</string>
+    <string name="title">Title</string>
+    <string name="main_activity_title">Your notes</string>
+    <string name="insert_note_here_text">Insert note here</string>
 
 </resources>

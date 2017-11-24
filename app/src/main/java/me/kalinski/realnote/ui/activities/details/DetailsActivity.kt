@@ -1,7 +1,9 @@
 package me.kalinski.realnote.ui.activities.details
 
 import android.os.Bundle
+import android.support.v7.widget.Toolbar
 import kotlinx.android.synthetic.main.activity_details.*
+import kotlinx.android.synthetic.main.toolbar_layout.view.*
 import me.kalinski.realnote.R
 import me.kalinski.realnote.R.layout.activity_details
 import me.kalinski.realnote.di.activities.BaseActivity
@@ -15,10 +17,19 @@ class DetailsActivity : BaseActivity(), DetailsView {
     @Inject
     lateinit var presenter: DetailsPresenter
 
+    private var toolbar: Toolbar? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(activity_details)
         presenter.attachView(this)
+
+        toolbar = setupToolbar(
+                toolbarId = R.id.toolbar,
+                visible = true,
+                backArrowEnabled = true,
+                title = ""
+        )
 
         initNoteFromExtras()
         presenter.loadNoteDetails(getNavigationId())
@@ -30,7 +41,7 @@ class DetailsActivity : BaseActivity(), DetailsView {
     }
 
     override fun showNoteDetails(note: Note) {
-        noteTitle.text = note.title
+        toolbar?.title = note.title
         noteDescription.text = note.description
     }
 
