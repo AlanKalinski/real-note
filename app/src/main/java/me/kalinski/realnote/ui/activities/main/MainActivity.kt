@@ -47,7 +47,7 @@ class MainActivity : BaseActivity(), MainView {
         toolbar = setupToolbar(
                 toolbarId = R.id.toolbar,
                 visible = true,
-                backArrowEnabled = true,
+                backArrowEnabled = false,
                 title = getString(R.string.main_activity_title)
         )
 

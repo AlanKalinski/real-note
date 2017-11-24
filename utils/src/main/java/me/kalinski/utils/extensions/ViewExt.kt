@@ -13,28 +13,6 @@ import com.bumptech.glide.Glide
 fun ViewGroup.inflate(layoutRes: Int): View =
         LayoutInflater.from(context).inflate(layoutRes, this, false)
 
-fun ImageView.loadImageCenter(imageUrl: String?) {
-    Glide
-            .with(context)
-            .load(imageUrl)
-            .fitCenter()
-            /*.placeholder(R.drawable.image_placeholder)
-            .error(R.drawable.image_error)*/
-            .crossFade()
-            .into(this)
-}
-
-fun ImageView.loadImageFill(imageUrl: String?) {
-    Glide
-            .with(context)
-            .load(imageUrl)
-            .centerCrop()
-            /*.placeholder(R.drawable.image_placeholder)
-            .error(R.drawable.image_error)*/
-            .crossFade()
-            .into(this)
-}
-
 inline fun View.snack(@StringRes messageRes: Int, length: Int = Snackbar.LENGTH_LONG, f: Snackbar.() -> Unit) {
     snack(resources.getString(messageRes), length, f)
 }
@@ -43,6 +21,18 @@ inline fun View.snack(message: String, length: Int = Snackbar.LENGTH_LONG, f: Sn
     val snack = Snackbar.make(this, message, length)
     snack.f()
     snack.show()
+}
+
+fun View.visible() {
+    this.visibility = View.VISIBLE
+}
+
+fun View.invisible() {
+    this.visibility = View.INVISIBLE
+}
+
+fun View.gone() {
+    this.visibility = View.GONE
 }
 
 fun Snackbar.action(@StringRes actionRes: Int, color: Int? = null, listener: (View) -> Unit) {
@@ -60,3 +50,6 @@ fun String.fromHtml() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 } else {
     Html.fromHtml(this)
 }
+
+val ViewGroup.children
+    get() = (0 until childCount).map { getChildAt(it) }
