@@ -10,6 +10,9 @@ import dagger.android.HasServiceInjector
 import me.kalinski.realnote.di.components.AppComponent
 import me.kalinski.realnote.di.components.DaggerAppComponent
 import javax.inject.Inject
+import timber.log.Timber
+
+
 
 class RealNoteApp : Application(), HasActivityInjector, HasServiceInjector {
 
@@ -28,6 +31,11 @@ class RealNoteApp : Application(), HasActivityInjector, HasServiceInjector {
     override fun onCreate() {
         super.onCreate()
         initAppComponent()
+        initLogging()
+    }
+
+    private fun initLogging() {
+        Timber.plant(Timber.DebugTree())
     }
 
     private fun initAppComponent() {

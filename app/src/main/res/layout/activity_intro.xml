@@ -3,6 +3,7 @@
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primary"
     android:orientation="vertical"
     android:weightSum="4">
 
@@ -10,32 +11,31 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/googleIcon"
+            android:id="@+id/appIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/firebase_lockup_400" />
+            android:layout_margin="16dp"
+            android:src="@drawable/notepad" />
 
         <TextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Google Sign in" />
+            android:text="@string/app_name"
+            android:textColor="@color/primary_text"
+            android:textSize="22sp" />
 
         <TextView
-            android:id="@+id/status"
+            android:id="@+id/infoText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Użytkownik wylogowany" />
-
-        <TextView
-            android:id="@+id/detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Firebase User ID: 123456789abc" />
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:text="@string/login_required" />
 
     </LinearLayout>
 
@@ -45,13 +45,42 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/btnSignIn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="visible"
-            tools:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/signInButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/googleSignIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/google_signin_background"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/sign_in_google"
+                android:visibility="visible"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/emailSignIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/googleSignIn"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:padding="8dp"
+                android:gravity="center"
+                android:text="@string/sign_in_email"
+                android:visibility="visible"
+                tools:visibility="visible" />
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/signOutAndDisconnect"
@@ -62,7 +91,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:visibility="gone"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <Button
                 android:id="@+id/btnSignOut"

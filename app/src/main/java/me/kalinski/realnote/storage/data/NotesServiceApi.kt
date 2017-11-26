@@ -11,5 +11,5 @@ interface NotesServiceApi {
 
     fun getNote(noteId: String, callback: NotesServiceCallback<Note>)
 
-    fun saveNote(note: Note)
+    fun saveNote(note: Note, callback: NotesServiceCallback<Note>)
 }

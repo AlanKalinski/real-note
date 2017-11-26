@@ -9,11 +9,17 @@
         android:id="@+id/bar"
         layout="@layout/appbar_layout" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/notesRecycler"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/bar" />
+        android:layout_below="@id/bar">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/notesRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnAdd"
@@ -22,8 +28,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_margin="8dp"
-        android:transitionName="addBtn"
         android:src="@android:drawable/ic_input_add"
-        app:fabSize="normal" />
+        app:rippleColor="@color/primary"
+        android:transitionName="addBtn"
+        app:fabSize="mini" />
 
 </RelativeLayout>

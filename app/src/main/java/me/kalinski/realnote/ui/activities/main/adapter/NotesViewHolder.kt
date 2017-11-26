@@ -5,11 +5,12 @@ import kotlinx.android.synthetic.main.row_note.view.*
 import me.kalinski.realnote.storage.data.Note
 import me.kalinski.utils.adapters.universalrecycler.UniversalViewHolder
 import me.kalinski.utils.adapters.universalrecycler.listeners.RowItemClick
+import me.kalinski.utils.extensions.fromHtml
 
 class NotesViewHolder(view: View) : UniversalViewHolder<Note>(view) {
     override fun bindObject(obj: Note, action: RowItemClick<Note>?) {
-        itemView.noteTitle.text = obj.title
-        itemView.noteDescription.text = obj.description
+        itemView.noteTitle.text = obj.title.fromHtml()
+        itemView.noteDescription.text = obj.description.fromHtml()
 
         itemView.setOnClickListener { action?.onClickItem(obj) }
     }

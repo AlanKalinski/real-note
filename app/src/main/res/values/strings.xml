@@ -1,11 +1,17 @@
 <resources>
-    <string name="app_name">Real Note</string>
-    <string name="error_log_in">Wystąpił problem z logowaniem</string>
-    <string name="wait">Czekaj...</string>
-    <string name="logged_as">Zalogowano jako: %s</string>
-    <string name="not_logged">Użytkownik niezalogowany</string>
+    <string name="app_name" translatable="false">Real Note</string>
     <string name="title">Title</string>
     <string name="main_activity_title">Your notes</string>
     <string name="insert_note_here_text">Insert note here</string>
+    <string name="save">Save</string>
+    <string name="note_saved_message">Note saved</string>
+    <string name="error_log_in">Login proble occured</string>
+    <string name="wait">Wait a sec...</string>
+    <string name="logged_as">Logged as: %s</string>
+    <string name="not_logged">User not logged in</string>
+    <string name="sign_in_google">Sign in with Google</string>
+    <string name="sign_in_email">Sign in with email</string>
+    <string name="available_soon">Available soon...</string>
+    <string name="login_required">To use the application, log in to one of the available methods.</string>
 
 </resources>

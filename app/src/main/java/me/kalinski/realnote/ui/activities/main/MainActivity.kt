@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.row_note.*
 import me.kalinski.realnote.R
-import me.kalinski.realnote.R.layout.activity_main
 import me.kalinski.realnote.di.activities.BaseActivity
 import me.kalinski.realnote.storage.data.Note
 import me.kalinski.realnote.ui.activities.addnote.AddNoteActivity
@@ -16,6 +15,7 @@ import me.kalinski.realnote.ui.activities.details.DetailsActivity
 import me.kalinski.realnote.ui.activities.main.adapter.NotesListAdapter
 import me.kalinski.utils.adapters.universalrecycler.listeners.RowItemClick
 import me.kalinski.utils.extensions.navigate
+import timber.log.Timber
 import javax.inject.Inject
 
 class MainActivity : BaseActivity(), MainView {
@@ -28,9 +28,13 @@ class MainActivity : BaseActivity(), MainView {
     lateinit var presenter: MainPresenter
 
     val noteList by lazy {
-        notesRecycler.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
+        notesRecycler.layoutManager = layoutManager
         notesRecycler.adapter = listAdapter
         notesRecycler
+    }
+
+    val layoutManager by lazy {
+        LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
     }
 
     val listAdapter by lazy {
@@ -41,8 +45,7 @@ class MainActivity : BaseActivity(), MainView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(activity_main)
-        presenter.attachView(this)
+        setContentView(R.layout.activity_main)
 
         toolbar = setupToolbar(
                 toolbarId = R.id.toolbar,
@@ -52,6 +55,15 @@ class MainActivity : BaseActivity(), MainView {
         )
 
         initViewComponents()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        presenter.attachView(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
         requestForNotes()
     }
 
@@ -63,11 +75,24 @@ class MainActivity : BaseActivity(), MainView {
         btnAdd.setOnClickListener {
             navigate<AddNoteActivity>(sharedElements = Pair.create(btnAdd, btnAdd.transitionName))
         }
+        swipeRefresh.setOnRefreshListener { requestForNotes() }
         noteList
     }
 
     override fun showNotes(notes: List<Note>) {
+        Timber.d("Notes loaded: %s", notes.toString())
+        if (listAdapter.itemCount < notes.count()) layoutManager.smoothScrollToPosition(notesRecycler, null, 0)
         listAdapter.itemList = notes.toMutableList()
+    }
+
+    override fun showProgress() {
+        Timber.d("Refreshing start")
+        swipeRefresh.isRefreshing = true
+    }
+
+    override fun hideProgress() {
+        Timber.d("Refreshing finished")
+        swipeRefresh.isRefreshing = false
     }
 
     private fun onRowClickLIstener() = object : RowItemClick<Note> {

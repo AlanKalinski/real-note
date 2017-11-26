@@ -17,7 +17,7 @@ class ServiceModule {
 
     @ApplicationScope
     @Provides
-    fun provideNotesService() : NotesServiceApi = NotesServiceApiImpl()
+    fun provideNotesService(): NotesServiceApi = NotesServiceApiImpl()
 
 
 }

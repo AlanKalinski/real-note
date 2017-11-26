@@ -3,9 +3,7 @@ package me.kalinski.realnote.ui.activities.details
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import kotlinx.android.synthetic.main.activity_details.*
-import kotlinx.android.synthetic.main.toolbar_layout.view.*
 import me.kalinski.realnote.R
-import me.kalinski.realnote.R.layout.activity_details
 import me.kalinski.realnote.di.activities.BaseActivity
 import me.kalinski.realnote.storage.data.Note
 import me.kalinski.realnote.ui.activities.main.MainActivity
@@ -21,7 +19,7 @@ class DetailsActivity : BaseActivity(), DetailsView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(activity_details)
+        setContentView(R.layout.activity_details)
         presenter.attachView(this)
 
         toolbar = setupToolbar(

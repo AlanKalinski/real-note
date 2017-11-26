@@ -8,6 +8,8 @@ import java.util.*
 data class Note constructor(
         val title: String,
         val description: String,
+        val editDate: Date,
+        val createDate: Date = editDate,
         val imageUrl: String? = null
 ) : BaseItemObject, Parcelable {
     override val viewType: Int = 0
@@ -19,6 +21,8 @@ data class Note constructor(
     constructor(source: Parcel) : this(
             source.readString(),
             source.readString(),
+            source.readSerializable() as Date,
+            source.readSerializable() as Date,
             source.readString()
     )
 
@@ -27,6 +31,8 @@ data class Note constructor(
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
         writeString(title)
         writeString(description)
+        writeSerializable(editDate)
+        writeSerializable(createDate)
         writeString(imageUrl)
     }
 

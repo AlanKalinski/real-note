@@ -17,26 +17,30 @@ class InMemoryNotesRepository(private val mNotesServiceApi: NotesServiceApi) : N
 
     override fun getNotes(callback: NotesRepository.LoadNotesCallback) {
         mCachedNotes?.let {
-            callback.onNotesLoaded(it)
+            callback.onNotesLoaded(it.sortedByDescending { it.createDate })
         } ?: run {
             mNotesServiceApi.getAllNotes(object : NotesServiceApi.NotesServiceCallback<List<Note>> {
                 override fun onLoaded(notes: List<Note>) {
                     mCachedNotes = notes
-                    callback.onNotesLoaded(mCachedNotes!!)
+                    callback.onNotesLoaded(mCachedNotes!!.sortedByDescending { it.createDate })
                 }
             })
         }
     }
 
-    override fun saveNote(note: Note) {
-        mNotesServiceApi.saveNote(note)
+    override fun saveNote(note: Note, callback: NotesRepository.SaveNoteCallback) {
+        mNotesServiceApi.saveNote(note, object : NotesServiceApi.NotesServiceCallback<Note> {
+            override fun onLoaded(notes: Note) {
+                callback.onNoteSaved(notes)
+            }
+        })
         refreshData()
     }
 
     override fun getNote(noteId: String, callback: NotesRepository.GetNoteCallback) {
         mNotesServiceApi.getNote(noteId, object : NotesServiceApi.NotesServiceCallback<Note> {
-            override fun onLoaded(note: Note) {
-                callback.onNoteLoaded(note)
+            override fun onLoaded(notes: Note) {
+                callback.onNoteLoaded(notes)
             }
         })
     }

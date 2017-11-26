@@ -21,9 +21,23 @@
         app:met_floatingLabel="normal"
         app:met_floatingLabelAlwaysShown="true"
         app:met_floatingLabelAnimating="true"
+        android:layout_toLeftOf="@id/btnSave"
+        android:layout_toStartOf="@id/btnSave"
         app:met_floatingLabelText="@string/title"
         app:met_maxCharacters="50"
         app:met_singleLineEllipsis="true" />
+
+    <TextView
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/noteTitle"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="@string/save" />
 
     <include
         android:id="@+id/textToolbox"
@@ -39,19 +53,5 @@
         android:layout_below="@id/textToolbox"
         android:gravity="start"
         android:imeOptions="actionDone" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btnAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="8dp"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:nextFocusDown="@id/editNote"
-        android:src="@android:drawable/ic_input_add"
-        android:transitionName="addBtn"
-        app:fabSize="normal" />
 
 </RelativeLayout>

@@ -2,27 +2,27 @@ package me.kalinski.realnote.ui.activities.addnote
 
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
-import android.view.KeyEvent
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.activity_addnote.*
 import me.kalinski.realnote.R
-import me.kalinski.realnote.R.layout.activity_addnote
 import me.kalinski.realnote.di.activities.BaseActivity
 import me.kalinski.realnote.utility.RichEditorUtils
 import me.kalinski.utils.extensions.children
-import timber.log.Timber
+import me.kalinski.utils.extensions.toast
 import javax.inject.Inject
 
 class AddNoteActivity : BaseActivity(), AddNoteView {
 
     @Inject
-    lateinit var presenter: AddNotePresenter
+    lateinit var presenter: IAddNotePresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(activity_addnote)
+        setContentView(R.layout.activity_addnote)
         showKeyboard()
+
+        presenter.attachView(this)
 
         editNote.apply {
             this.setPadding(8, 8, 8, 8)
@@ -33,6 +33,7 @@ class AddNoteActivity : BaseActivity(), AddNoteView {
         }
 
         setOnToolboxClick(findViewById(R.id.textToolbox))
+        btnSave.setOnClickListener { presenter.saveNote(noteTitle.text.toString(), editNote.html) }
     }
 
     private fun setOnToolboxClick(viewGroup: ViewGroup?) {
@@ -42,9 +43,8 @@ class AddNoteActivity : BaseActivity(), AddNoteView {
         }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        Timber.d("Note saved: %s", editNote.html)
+    override fun onNoteSaved() {
+        toast(getString(R.string.note_saved_message))
+        finish()
     }
-
 }

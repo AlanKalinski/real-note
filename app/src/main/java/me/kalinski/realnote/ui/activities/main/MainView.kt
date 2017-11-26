@@ -5,4 +5,6 @@ import me.kalinski.realnote.storage.data.Note
 
 interface MainView : BaseMvp.MvpView {
     fun showNotes(notes: List<Note>)
+    fun showProgress()
+    fun hideProgress()
 }

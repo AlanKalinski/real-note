@@ -31,9 +31,16 @@ class LoginActivity : BaseActivity(), LoginView {
 
         authorizationModule = GoogleAuthentication(this, authorizationListener(), getString(R.string.default_web_client_id))
 
-        btnSignIn.setOnClickListener {
+        initViewComponents()
+    }
+
+    private fun initViewComponents() {
+        googleSignIn.setOnClickListener {
             showProgress()
             authorizationModule?.signIn()
+        }
+        emailSignIn.setOnClickListener {
+            toast(getString(R.string.available_soon))
         }
         btnSignOut.setOnClickListener {
             showProgress()
@@ -66,14 +73,19 @@ class LoginActivity : BaseActivity(), LoginView {
 
     override fun onStart() {
         super.onStart()
+        presenter.attachView(this)
         presenter.checkUser()
+    }
+
+    override fun onStop() {
+        presenter.detachView()
+        super.onStop()
     }
 
     override fun setUser(user: FirebaseUser) {
         hideProgress()
-        status.text = String.format(getString(R.string.logged_as), user.displayName)
         btnSignInVisibility(false)
-        btnSignOutVisibility(true)
+//        btnSignOutVisibility(true)
 
         navigate<MainActivity>()
         finish()
@@ -81,7 +93,6 @@ class LoginActivity : BaseActivity(), LoginView {
 
     override fun showNotLoggedIn() {
         hideProgress()
-        status.text = String.format(getString(R.string.not_logged))
         btnSignInVisibility(true)
         btnSignOutVisibility(false)
     }
@@ -95,7 +106,7 @@ class LoginActivity : BaseActivity(), LoginView {
     }
 
     override fun btnSignInVisibility(enable: Boolean) {
-        btnSignIn.visibility = if (enable) View.VISIBLE else View.GONE
+        signInButtons.visibility = if (enable) View.VISIBLE else View.GONE
     }
 
     override fun btnSignOutVisibility(enable: Boolean) {

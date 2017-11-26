@@ -12,14 +12,15 @@ class MainPresenter @Inject constructor(val interactor: IMainInteractor) : IMain
     }
 
     override fun loadNotes() {
+        view?.showProgress()
         interactor.loadNotes(notesDbCallback())
     }
 
     private fun notesDbCallback() = object : NotesRepository.LoadNotesCallback {
         override fun onNotesLoaded(notes: List<Note>) {
             view?.showNotes(notes)
+            view?.hideProgress()
         }
-
     }
 
 

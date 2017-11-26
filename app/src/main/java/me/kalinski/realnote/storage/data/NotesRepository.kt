@@ -10,11 +10,15 @@ interface NotesRepository {
         fun onNoteLoaded(note: Note)
     }
 
+    interface SaveNoteCallback {
+        fun onNoteSaved(note: Note)
+    }
+
     fun getNotes(callback: LoadNotesCallback)
 
     fun getNote(noteId: String, callback: GetNoteCallback)
 
-    fun saveNote(note: Note)
+    fun saveNote(note: Note, callback: SaveNoteCallback)
 
     fun refreshData()
 }

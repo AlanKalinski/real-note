@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_log_in">Wystąpił problem z logowaniem</string>
+    <string name="wait">Czekaj...</string>
+    <string name="logged_as">Zalogowano jako: %s</string>
+    <string name="not_logged">Użytkownik niezalogowany</string>
+    <string name="title">Tytuł</string>
+    <string name="main_activity_title">Twoje notatki</string>
+    <string name="insert_note_here_text">Wpisz zawartość notatki tutaj</string>
+    <string name="save">Zapisz</string>
+    <string name="note_saved_message">Zapisano notatkę</string>
+    <string name="sign_in_google">Zaloguj kontem Google</string>
+    <string name="sign_in_email">Zaloguj poprzez email</string>
+    <string name="available_soon">Dostępne wkrótce</string>
+    <string name="login_required">Aby korzystać z aplikacji należy się zalogować jedną z dostępnych metod.</string>
+</resources>
