@@ -1,7 +1,8 @@
 package me.kalinski.realnote.ui.activities.addnote
 
 import me.kalinski.realnote.di.base.BaseMvp
+import me.kalinski.realnote.storage.data.Note
 
 interface AddNoteView : BaseMvp.MvpView {
-    fun onNoteSaved()
+    fun onNoteSaved(note: Note)
 }

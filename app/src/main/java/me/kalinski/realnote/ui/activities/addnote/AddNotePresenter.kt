@@ -16,7 +16,7 @@ class AddNotePresenter @Inject constructor(val interactor: IAddNoteInteractor) :
     private fun onNoteSaveCallback() = object : NotesRepository.SaveNoteCallback {
         override fun onNoteSaved(note: Note) {
             Timber.d("Note saved: %s", note.toString())
-            view?.onNoteSaved()
+            view?.onNoteSaved(note)
         }
 
     }

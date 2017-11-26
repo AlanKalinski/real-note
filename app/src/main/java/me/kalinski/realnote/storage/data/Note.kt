@@ -16,7 +16,7 @@ data class Note constructor(
 
     val id: String = UUID.randomUUID().toString()
 
-    override fun getDifferenceItem(): String = hashCode().toString()
+    override fun getDifferenceItem(): String = toString()
 
     constructor(source: Parcel) : this(
             source.readString(),
@@ -34,6 +34,10 @@ data class Note constructor(
         writeSerializable(editDate)
         writeSerializable(createDate)
         writeString(imageUrl)
+    }
+
+    override fun toString(): String {
+        return "Note(title='$title', description='$description', editDate=$editDate, createDate=$createDate, imageUrl=$imageUrl, viewType=$viewType, id='$id')"
     }
 
     companion object {

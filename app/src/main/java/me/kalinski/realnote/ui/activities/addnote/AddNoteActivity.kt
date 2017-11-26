@@ -1,5 +1,7 @@
 package me.kalinski.realnote.ui.activities.addnote
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.view.ViewGroup
@@ -7,12 +9,17 @@ import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.activity_addnote.*
 import me.kalinski.realnote.R
 import me.kalinski.realnote.di.activities.BaseActivity
+import me.kalinski.realnote.storage.data.Note
 import me.kalinski.realnote.utility.RichEditorUtils
 import me.kalinski.utils.extensions.children
 import me.kalinski.utils.extensions.toast
 import javax.inject.Inject
 
 class AddNoteActivity : BaseActivity(), AddNoteView {
+
+    companion object {
+        const val ADDED_NOTE: String = "ADDED_NOTE"
+    }
 
     @Inject
     lateinit var presenter: IAddNotePresenter
@@ -43,8 +50,11 @@ class AddNoteActivity : BaseActivity(), AddNoteView {
         }
     }
 
-    override fun onNoteSaved() {
+    override fun onNoteSaved(note: Note) {
         toast(getString(R.string.note_saved_message))
+        val intent = Intent()
+        intent.putExtra(ADDED_NOTE, note)
+        setResult(Activity.RESULT_OK, intent)
         finish()
     }
 }

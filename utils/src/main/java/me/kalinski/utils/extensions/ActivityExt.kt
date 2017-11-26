@@ -34,6 +34,25 @@ inline fun <reified T : Activity> Activity.navigate(
     ActivityCompat.startActivity(this, intent, options?.toBundle())
 }
 
+inline fun <reified T : Activity> Activity.navigateForResult(
+        requestCode: Int,
+        sharedObjects: Intent? = null,
+        vararg sharedElements: Pair<View, String>
+) {
+    val intent = Intent(this, T::class.java)
+
+    sharedObjects?.let {
+        intent.putExtras(it)
+    }
+
+    var options: ActivityOptionsCompat? = null
+    if (sharedElements.isNotEmpty()) {
+        options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, *sharedElements)
+    }
+
+    ActivityCompat.startActivityForResult(this, intent, requestCode, options?.toBundle())
+}
+
 fun Activity.getNavigationId(): String {
     val intent = intent
     return intent.getStringExtra("id")

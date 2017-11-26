@@ -10,7 +10,10 @@ import me.kalinski.utils.extensions.fromHtml
 class NotesViewHolder(view: View) : UniversalViewHolder<Note>(view) {
     override fun bindObject(obj: Note, action: RowItemClick<Note>?) {
         itemView.noteTitle.text = obj.title.fromHtml()
-        itemView.noteDescription.text = obj.description.fromHtml()
+        itemView.noteDescription.apply {
+            text = obj.description.fromHtml()
+            maxLines = 10
+        }
 
         itemView.setOnClickListener { action?.onClickItem(obj) }
     }

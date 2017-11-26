@@ -55,14 +55,15 @@
                 android:id="@+id/googleSignIn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:layout_marginStart="16dp"
                 android:background="@drawable/google_signin_background"
                 android:gravity="center"
                 android:padding="8dp"
                 android:text="@string/sign_in_google"
+                android:textColor="@color/primary_text"
                 android:visibility="visible"
                 tools:visibility="visible" />
 
@@ -71,13 +72,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/googleSignIn"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginLeft="16dp"
+
                 android:layout_marginRight="16dp"
-                android:padding="8dp"
+                android:layout_marginStart="16dp"
                 android:gravity="center"
+                android:padding="8dp"
                 android:text="@string/sign_in_email"
+                android:textColor="@color/primary_text"
                 android:visibility="visible"
                 tools:visibility="visible" />
         </RelativeLayout>

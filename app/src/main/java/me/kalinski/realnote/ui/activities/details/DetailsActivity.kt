@@ -7,6 +7,7 @@ import me.kalinski.realnote.R
 import me.kalinski.realnote.di.activities.BaseActivity
 import me.kalinski.realnote.storage.data.Note
 import me.kalinski.realnote.ui.activities.main.MainActivity
+import me.kalinski.utils.extensions.fromHtml
 import me.kalinski.utils.extensions.getNavigationId
 import javax.inject.Inject
 
@@ -39,8 +40,8 @@ class DetailsActivity : BaseActivity(), DetailsView {
     }
 
     override fun showNoteDetails(note: Note) {
-        toolbar?.title = note.title
-        noteDescription.text = note.description
+        toolbar?.title = note.title.fromHtml()
+        noteDescription.text = note.description.fromHtml()
     }
 
     override fun onStop() {

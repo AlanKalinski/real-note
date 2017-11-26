@@ -1,5 +1,6 @@
 package me.kalinski.realnote.ui.activities.main
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.util.Pair
@@ -15,13 +16,15 @@ import me.kalinski.realnote.ui.activities.details.DetailsActivity
 import me.kalinski.realnote.ui.activities.main.adapter.NotesListAdapter
 import me.kalinski.utils.adapters.universalrecycler.listeners.RowItemClick
 import me.kalinski.utils.extensions.navigate
+import me.kalinski.utils.extensions.navigateForResult
 import timber.log.Timber
 import javax.inject.Inject
 
 class MainActivity : BaseActivity(), MainView {
 
     companion object {
-        val NOTE_INTENT_CONSTANT = "NOTE"
+        const val NOTE_INTENT_CONSTANT = "NOTE"
+        const val REQUEST_ADD_NOTE = 1337
     }
 
     @Inject
@@ -60,10 +63,6 @@ class MainActivity : BaseActivity(), MainView {
     override fun onStart() {
         super.onStart()
         presenter.attachView(this)
-    }
-
-    override fun onResume() {
-        super.onResume()
         requestForNotes()
     }
 
@@ -73,7 +72,7 @@ class MainActivity : BaseActivity(), MainView {
 
     private fun initViewComponents() {
         btnAdd.setOnClickListener {
-            navigate<AddNoteActivity>(sharedElements = Pair.create(btnAdd, btnAdd.transitionName))
+            navigateForResult<AddNoteActivity>(requestCode = REQUEST_ADD_NOTE, sharedElements = Pair.create(btnAdd, btnAdd.transitionName))
         }
         swipeRefresh.setOnRefreshListener { requestForNotes() }
         noteList
@@ -81,7 +80,7 @@ class MainActivity : BaseActivity(), MainView {
 
     override fun showNotes(notes: List<Note>) {
         Timber.d("Notes loaded: %s", notes.toString())
-        if (listAdapter.itemCount < notes.count()) layoutManager.smoothScrollToPosition(notesRecycler, null, 0)
+        layoutManager.smoothScrollToPosition(notesRecycler, null, 0)
         listAdapter.itemList = notes.toMutableList()
     }
 
@@ -106,6 +105,17 @@ class MainActivity : BaseActivity(), MainView {
                     Pair.create(noteTitle, noteTitle.transitionName),
                     Pair.create(noteDescription, noteDescription.transitionName)
             )
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_ADD_NOTE) {
+            if (resultCode == Activity.RESULT_OK) {
+                data?.let {
+                    val receivedNote: Note = data.extras.getParcelable(AddNoteActivity.ADDED_NOTE)
+//                    addNote(receivedNote)
+                }
+            }
         }
     }
 
