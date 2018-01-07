@@ -1,6 +1,12 @@
 package me.kalinski.realnote.ui.activities.login
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.firebase.auth.FirebaseUser
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
+import me.kalinski.realnote.storage.daos.UserDAO
+import timber.log.Timber
 import javax.inject.Inject
 
 class LoginPresenter @Inject constructor(val interactor: ILoginInteractor) : ILoginPresenter {
@@ -57,5 +63,17 @@ class LoginPresenter @Inject constructor(val interactor: ILoginInteractor) : ILo
         view?.showNotLoggedIn()
         view?.btnSignInVisibility(true)
         view?.btnSignOutVisibility(false)
+    }
+
+    override fun syncUser(user: FirebaseUser) {
+        UserDAO().insertOrUpdateUser(user)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(onError = {
+                    Timber.w(it)
+                    interactor.signOut()
+                }, onSuccess = {
+                    view?.navigateToMain()
+                })
     }
 }

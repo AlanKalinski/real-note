@@ -35,5 +35,4 @@ dependencies {
     api "com.google.firebase:firebase-core:$rootProject.firebase"
     api "com.google.firebase:firebase-auth:$rootProject.firebase"
     api "com.google.android.gms:play-services-auth:$rootProject.firebase"
-
 }

@@ -46,7 +46,7 @@ object NotesServiceApiEndpoint {
     }
 
     private fun addNote(title: String, description: String, imageUrl: String? = null) {
-        val newNote = Note(title, description, editDate = (Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1))), imageUrl = imageUrl)
+        val newNote = Note(title, description, editDate = (Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1)).time), imageUrl = imageUrl)
         DATA.put(newNote.id, newNote)
     }
 

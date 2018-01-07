@@ -1,6 +1,7 @@
 package me.kalinski.realnote.ui.activities.login
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.firebase.auth.FirebaseUser
 import me.kalinski.realnote.di.base.BaseMvp
 
 interface ILoginPresenter : BaseMvp.MvpPresenter<LoginView> {
@@ -14,4 +15,5 @@ interface ILoginPresenter : BaseMvp.MvpPresenter<LoginView> {
     fun revokeAccess()
     fun showNotLogged()
     fun firebaseAuthWithGoogle(account: GoogleSignInAccount)
+    fun syncUser(user: FirebaseUser)
 }

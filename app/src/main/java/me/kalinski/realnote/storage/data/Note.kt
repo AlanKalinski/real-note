@@ -6,11 +6,12 @@ import me.kalinski.utils.adapters.universalrecycler.models.BaseItemObject
 import java.util.*
 
 data class Note constructor(
-        val title: String,
-        val description: String,
-        val editDate: Date,
-        val createDate: Date = editDate,
-        val imageUrl: String? = null
+        var title: String = "",
+        var description: String = "",
+        var editDate: Long = Date().time,
+        var createDate: Long = editDate,
+        var imageUrl: String? = "",
+        var uid: String = ""
 ) : BaseItemObject, Parcelable {
     override val viewType: Int = 0
 
@@ -18,11 +19,16 @@ data class Note constructor(
 
     override fun getDifferenceItem(): String = toString()
 
+    override fun toString(): String {
+        return "Note(title='$title', description='$description', editDate=$editDate, createDate=$createDate, imageUrl=$imageUrl, viewType=$viewType, id='$id')"
+    }
+
     constructor(source: Parcel) : this(
             source.readString(),
             source.readString(),
-            source.readSerializable() as Date,
-            source.readSerializable() as Date,
+            source.readLong(),
+            source.readLong(),
+            source.readString(),
             source.readString()
     )
 
@@ -31,13 +37,10 @@ data class Note constructor(
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
         writeString(title)
         writeString(description)
-        writeSerializable(editDate)
-        writeSerializable(createDate)
+        writeLong(editDate)
+        writeLong(createDate)
         writeString(imageUrl)
-    }
-
-    override fun toString(): String {
-        return "Note(title='$title', description='$description', editDate=$editDate, createDate=$createDate, imageUrl=$imageUrl, viewType=$viewType, id='$id')"
+        writeString(uid)
     }
 
     companion object {

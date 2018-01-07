@@ -2,19 +2,34 @@ package me.kalinski.realnote.ui.activities.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.google.android.gms.common.ConnectionResult
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
+import durdinapps.rxfirebase2.RxFirebaseAuth
+import durdinapps.rxfirebase2.RxFirebaseDatabase
+import durdinapps.rxfirebase2.RxFirebaseQuery
+import durdinapps.rxfirebase2.RxFirestore
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_intro.*
 import me.kalinski.firebaseauth.components.Authentication
 import me.kalinski.firebaseauth.components.GoogleAuthentication
 import me.kalinski.firebaseauth.listeners.AuthorizationListener
 import me.kalinski.realnote.R
 import me.kalinski.realnote.di.activities.BaseActivity
+import me.kalinski.realnote.storage.daos.UserDAO
+import me.kalinski.realnote.storage.models.User
 import me.kalinski.realnote.ui.activities.main.MainActivity
 import me.kalinski.utils.extensions.navigate
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.toast
+import timber.log.Timber
 import javax.inject.Inject
 
 class LoginActivity : BaseActivity(), LoginView {
@@ -79,14 +94,24 @@ class LoginActivity : BaseActivity(), LoginView {
 
     override fun onStop() {
         presenter.detachView()
+        progress.dismiss()
         super.onStop()
     }
 
     override fun setUser(user: FirebaseUser) {
         hideProgress()
         btnSignInVisibility(false)
-//        btnSignOutVisibility(true)
 
+        syncUser(user)
+    }
+
+    private fun syncUser(user: FirebaseUser) {
+        user.email?.let {
+            presenter.syncUser(user)
+        }
+    }
+
+    override fun navigateToMain() {
         navigate<MainActivity>()
         finish()
     }

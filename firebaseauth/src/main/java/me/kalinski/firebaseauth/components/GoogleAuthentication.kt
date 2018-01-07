@@ -2,6 +2,7 @@ package me.kalinski.firebaseauth.components
 
 import android.content.Intent
 import android.support.v4.app.FragmentActivity
+import android.util.Log
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.GoogleAuthProvider
@@ -27,6 +28,7 @@ class GoogleAuthentication(activity: FragmentActivity, listener: AuthorizationLi
                 val account = result.signInAccount
                 account?.let { firebaseAuthWithGoogle(account) } ?: run { listener.loggedOut() }
             } else {
+                Log.w(javaClass.simpleName, result.status.statusMessage)
                 listener.loggedOut()
             }
         }

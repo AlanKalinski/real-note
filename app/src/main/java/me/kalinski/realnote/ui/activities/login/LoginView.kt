@@ -13,4 +13,5 @@ interface LoginView : BaseMvp.MvpView {
     fun showMessage(@StringRes message: Int)
     fun showProgress()
     fun hideProgress()
+    fun navigateToMain()
 }

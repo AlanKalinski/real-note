@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class AddNotePresenter @Inject constructor(val interactor: IAddNoteInteractor) : IAddNotePresenter {
     override fun saveNote(noteTitle: String, noteHtml: String) {
-        val noteToSave = Note(noteTitle, noteHtml, Date())
+        val noteToSave = Note(noteTitle, noteHtml, Date().time)
         Timber.d("Note: %s", noteToSave.toString())
         interactor.saveNote(noteToSave, onNoteSaveCallback())
     }
