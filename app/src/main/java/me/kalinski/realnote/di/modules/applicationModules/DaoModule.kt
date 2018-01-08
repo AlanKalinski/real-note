@@ -3,8 +3,10 @@ package me.kalinski.realnote.di.modules.applicationModules
 import dagger.Module
 import dagger.Provides
 import me.kalinski.realnote.di.scope.ApplicationScope
+import me.kalinski.realnote.storage.daos.UserDAO
 import me.kalinski.realnote.storage.data.NoteRepositories
 import me.kalinski.realnote.storage.data.NotesServiceApi
+import javax.inject.Singleton
 
 @Module(includes = arrayOf(
         ServiceModule::class
@@ -21,6 +23,10 @@ class DaoModule {
     @ApplicationScope
     @Provides
     fun provideUserDao(db: UserDatabase) = db.userDao()*/
+
+    @ApplicationScope
+    @Provides
+    fun provideUserDAO() = UserDAO()
 
     @ApplicationScope
     @Provides

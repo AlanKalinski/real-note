@@ -4,7 +4,7 @@ import android.support.annotation.VisibleForTesting
 
 
 /**
- * Concrete implementation to load notes from the a data source.
+ * Concrete implementation to load Notes from the a data source.
  */
 class InMemoryNotesRepository(private val mNotesServiceApi: NotesServiceApi) : NotesRepository {
 

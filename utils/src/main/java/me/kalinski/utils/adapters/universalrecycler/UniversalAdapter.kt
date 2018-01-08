@@ -12,7 +12,7 @@ abstract class UniversalAdapter<O : BaseItemObject>(
     var itemList: MutableList<O> by Delegates.observable(mutableListOf()) {
         _, oldValue, newValue ->
         autoNotify(oldValue, newValue) {
-            o, n -> o.getDifferenceItem() == n.getDifferenceItem()
+            o, n -> o.differenceItem() == n.differenceItem()
         }
     }
 
@@ -20,6 +20,6 @@ abstract class UniversalAdapter<O : BaseItemObject>(
         holder.bindObject(itemList[position], action)
     }
     override fun getItemCount() = itemList.size
-    override fun getItemViewType(position: Int) = itemList[position].viewType
+    override fun getItemViewType(position: Int) = itemList[position].viewType()
 
 }

@@ -9,7 +9,10 @@ import me.kalinski.realnote.storage.daos.UserDAO
 import timber.log.Timber
 import javax.inject.Inject
 
-class LoginPresenter @Inject constructor(val interactor: ILoginInteractor) : ILoginPresenter {
+class LoginPresenter @Inject constructor(
+        val interactor: ILoginInteractor,
+        val userDAO: UserDAO
+) : ILoginPresenter {
 
     var view: LoginView? = null
 
@@ -66,7 +69,7 @@ class LoginPresenter @Inject constructor(val interactor: ILoginInteractor) : ILo
     }
 
     override fun syncUser(user: FirebaseUser) {
-        UserDAO().insertOrUpdateUser(user)
+        userDAO.insertOrUpdateUser(user)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(onError = {

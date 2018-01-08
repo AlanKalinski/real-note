@@ -1,31 +1,29 @@
 package me.kalinski.realnote.storage.daos
 
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import durdinapps.rxfirebase2.RxFirestore
-import io.reactivex.Maybe
-import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.subscribeBy
-import me.kalinski.realnote.storage.data.Note
 import me.kalinski.realnote.storage.models.User
 import timber.log.Timber
+import javax.inject.Inject
 
 const val USERS_TABLE = "Users"
 
-class UserDAO {
+class UserDAO @Inject constructor() {
     private val reference = FirebaseFirestore.getInstance()
     private val collection = reference.collection(USERS_TABLE)
 
+    var actualUser: FirebaseUser? = null
+
     fun insertOrUpdateUser(user: FirebaseUser) = Single.create<User> { emitter ->
+        actualUser = user
         RxFirestore.getDocument(collection.document(user.email ?: ""))
-                .map({
-                    val mapObj = it.toObject(User::class.java)
-                    mapObj.notes = getReferencedNotes(it.get("Notes") as? List<DocumentReference> ?: emptyList()).blockingGet()
-                    mapObj
-                })
+                .map({ it.toObject(User::class.java) })
+                .toSingle()
                 .subscribeBy(onError = {
+                    Timber.w(it)
                     val newUser = User(
                             user.displayName ?: "",
                             user.email ?: "",
@@ -48,8 +46,7 @@ class UserDAO {
                     it.phoneNumber = user.phoneNumber ?: ""
                     it.photoUrl = user.photoUrl.toString()
 
-                    Timber.d("User ${it.toString()} ")
-                    Timber.d("User note: ${it.notes[0].toString()}")
+                    Timber.d("User $it ")
 
                     RxFirestore.setDocument(collection.document(it.email), it)
                             .subscribeBy(
@@ -62,21 +59,4 @@ class UserDAO {
                             )
                 })
     }
-
-    private fun getReferencedNotes(documentReferences: Iterable<DocumentReference>) = Maybe.create<Array<Note>> { emitter ->
-        Observable.fromIterable(documentReferences)
-                .map {
-                    RxFirestore.getDocument(it)
-                            .map({ it.toObject(Note::class.java) })
-                            .doOnError({ it.printStackTrace() })
-                            .blockingGet()
-                }
-                .toList()
-                .subscribeBy(onError = {
-                    emitter.onSuccess(emptyArray())
-                }, onSuccess = {
-                    emitter.onSuccess(it.toTypedArray())
-                })
-    }
-
 }

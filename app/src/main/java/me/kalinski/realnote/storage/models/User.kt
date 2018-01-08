@@ -2,8 +2,8 @@ package me.kalinski.realnote.storage.models
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.firebase.firestore.DocumentReference
 import me.kalinski.realnote.storage.data.Note
-import java.util.*
 
 data class User(
         var displayName: String = "",
@@ -12,7 +12,7 @@ data class User(
         var photoUrl: String = "",
         var providerId: String = "",
         var uid: String = email,
-        var notes: Array<Note> = emptyArray()
+        var notes: List<DocumentReference> = emptyList()
 ) : Parcelable {
     constructor(source: Parcel) : this(
             source.readString(),
@@ -21,7 +21,7 @@ data class User(
             source.readString(),
             source.readString(),
             source.readString(),
-            source.readParcelableArray(Note::class.java.classLoader) as Array<Note>
+            ArrayList<DocumentReference>().apply { source.readList(this, DocumentReference::class.java.classLoader) }
     )
 
     override fun describeContents() = 0
@@ -33,35 +33,7 @@ data class User(
         writeString(photoUrl)
         writeString(providerId)
         writeString(uid)
-        writeParcelableArray(notes, 0)
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as User
-
-        if (displayName != other.displayName) return false
-        if (email != other.email) return false
-        if (phoneNumber != other.phoneNumber) return false
-        if (photoUrl != other.photoUrl) return false
-        if (providerId != other.providerId) return false
-        if (uid != other.uid) return false
-        if (!Arrays.equals(notes, other.notes)) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = displayName.hashCode()
-        result = 31 * result + email.hashCode()
-        result = 31 * result + phoneNumber.hashCode()
-        result = 31 * result + photoUrl.hashCode()
-        result = 31 * result + providerId.hashCode()
-        result = 31 * result + uid.hashCode()
-        result = 31 * result + Arrays.hashCode(notes)
-        return result
+        writeList(notes)
     }
 
     companion object {
