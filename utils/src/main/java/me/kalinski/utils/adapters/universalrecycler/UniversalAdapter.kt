@@ -9,7 +9,7 @@ abstract class UniversalAdapter<O : BaseItemObject>(
         val action: RowItemClick<O>?
 ) : RecyclerView.Adapter<UniversalViewHolder<O>>(), AutoUpdatableAdapter {
 
-    var itemList: MutableList<O> by Delegates.observable(mutableListOf()) {
+    var itemList: List<O> by Delegates.observable(emptyList()) {
         _, oldValue, newValue ->
         autoNotify(oldValue, newValue) {
             o, n -> o.differenceItem() == n.differenceItem()

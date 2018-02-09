@@ -30,6 +30,11 @@ android {
 
 kapt {
     generateStubs = true
+    useBuildCache = true
+}
+
+androidExtensions {
+    experimental = true
 }
 
 dependencies {

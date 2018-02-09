@@ -17,8 +17,4 @@ class NotesViewHolder(view: View) : UniversalViewHolder<Note>(view) {
 
         itemView.setOnClickListener { action?.onClickItem(obj) }
     }
-
-    override fun bindObject(obj: Note, prevObj: Note?, futuObj: Note?, action: RowItemClick<Note>?) {
-        bindObject(obj, action)
-    }
 }

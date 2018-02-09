@@ -15,10 +15,9 @@ class UserDAO @Inject constructor() {
     private val reference = FirebaseFirestore.getInstance()
     private val collection = reference.collection(USERS_TABLE)
 
-    var actualUser: FirebaseUser? = null
+    var actualUser: User? = null
 
     fun insertOrUpdateUser(user: FirebaseUser) = Single.create<User> { emitter ->
-        actualUser = user
         RxFirestore.getDocument(collection.document(user.email ?: ""))
                 .map({ it.toObject(User::class.java) })
                 .toSingle()
@@ -32,6 +31,7 @@ class UserDAO @Inject constructor() {
                             user.providerId
                     )
 
+                    actualUser = newUser
                     RxFirestore.setDocument(collection.document(newUser.email), newUser)
                             .subscribeBy(
                                     onError = {
@@ -48,6 +48,7 @@ class UserDAO @Inject constructor() {
 
                     Timber.d("User $it ")
 
+                    actualUser = it
                     RxFirestore.setDocument(collection.document(it.email), it)
                             .subscribeBy(
                                     onError = {

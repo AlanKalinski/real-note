@@ -1,8 +1,8 @@
 package me.kalinski.realnote.ui.activities.main
 
-import me.kalinski.realnote.storage.data.NotesRepository
+import io.reactivex.Single
+import me.kalinski.realnote.storage.data.Note
 
 interface IMainInteractor {
-    fun loadNotes(callback: NotesRepository.LoadNotesCallback)
-    fun refreshData()
+    fun loadNotes(): Single<List<Note>>
 }

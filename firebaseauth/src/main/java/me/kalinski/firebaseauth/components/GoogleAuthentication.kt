@@ -28,7 +28,7 @@ class GoogleAuthentication(activity: FragmentActivity, listener: AuthorizationLi
                 val account = result.signInAccount
                 account?.let { firebaseAuthWithGoogle(account) } ?: run { listener.loggedOut() }
             } else {
-                Log.w(javaClass.simpleName, result.status.statusMessage)
+                Log.w(javaClass.simpleName, "${result.status.statusMessage}")
                 listener.loggedOut()
             }
         }

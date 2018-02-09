@@ -17,14 +17,14 @@ abstract class Authentication(
     private val TAG = javaClass.simpleName
     protected val RC_SIGN_IN = 9001
 
-    protected val gso by lazy {
+    private val gso by lazy {
         GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(requestToken)
                 .requestEmail()
                 .build()
     }
 
-    protected val googleApiClient by lazy {
+    protected val googleApiClient: GoogleApiClient by lazy {
         GoogleApiClient.Builder(activity)
                 .enableAutoManage(activity) { error ->
                     run {

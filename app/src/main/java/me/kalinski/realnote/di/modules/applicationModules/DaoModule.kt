@@ -6,23 +6,11 @@ import me.kalinski.realnote.di.scope.ApplicationScope
 import me.kalinski.realnote.storage.daos.UserDAO
 import me.kalinski.realnote.storage.data.NoteRepositories
 import me.kalinski.realnote.storage.data.NotesServiceApi
-import javax.inject.Singleton
 
 @Module(includes = arrayOf(
         ServiceModule::class
 ))
 class DaoModule {
-    /*@ApplicationScope
-    @Provides
-    fun provideUserDatabase(
-            app: Application
-    ) = Room.databaseBuilder(app, UserDatabase::class.java, "users")
-            .allowMainThreadQueries()
-            .build()
-
-    @ApplicationScope
-    @Provides
-    fun provideUserDao(db: UserDatabase) = db.userDao()*/
 
     @ApplicationScope
     @Provides

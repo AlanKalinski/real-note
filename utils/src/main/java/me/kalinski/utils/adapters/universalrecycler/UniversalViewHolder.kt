@@ -7,5 +7,4 @@ import me.kalinski.utils.adapters.universalrecycler.models.BaseItemObject
 
 abstract class UniversalViewHolder<T: BaseItemObject>(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bindObject(obj: T, action: RowItemClick<T>?)
-    abstract fun bindObject(obj: T, prevObj:T?, futuObj:T?, action: RowItemClick<T>?)
 }

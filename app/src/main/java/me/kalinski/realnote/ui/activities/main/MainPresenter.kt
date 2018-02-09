@@ -1,7 +1,8 @@
 package me.kalinski.realnote.ui.activities.main
 
-import me.kalinski.realnote.storage.data.Note
-import me.kalinski.realnote.storage.data.NotesRepository
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class MainPresenter @Inject constructor(val interactor: IMainInteractor) : IMainPresenter {
@@ -13,16 +14,17 @@ class MainPresenter @Inject constructor(val interactor: IMainInteractor) : IMain
 
     override fun loadNotes() {
         view?.showProgress()
-        interactor.loadNotes(notesDbCallback())
+        interactor.loadNotes()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(onError = {
+                    //TODO
+                    view?.hideProgress()
+                }, onSuccess = {
+                    view?.showNotes(it)
+                    view?.hideProgress()
+                })
     }
-
-    private fun notesDbCallback() = object : NotesRepository.LoadNotesCallback {
-        override fun onNotesLoaded(notes: List<Note>) {
-            view?.showNotes(notes)
-            view?.hideProgress()
-        }
-    }
-
 
     override fun detachView() {
         view = null

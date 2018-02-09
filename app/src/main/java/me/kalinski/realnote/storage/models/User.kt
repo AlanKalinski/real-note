@@ -3,7 +3,6 @@ package me.kalinski.realnote.storage.models
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.firebase.firestore.DocumentReference
-import me.kalinski.realnote.storage.data.Note
 
 data class User(
         var displayName: String = "",

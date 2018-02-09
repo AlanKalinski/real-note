@@ -7,10 +7,12 @@ import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.subscribeBy
 import me.kalinski.realnote.storage.data.Note
+import timber.log.Timber
+import javax.inject.Inject
 
 const val NOTES_TABLE = "Notes"
 
-class NotesDAO {
+class NotesDAO @Inject constructor() {
     private val reference = FirebaseFirestore.getInstance()
     private val collection = reference.collection(NOTES_TABLE)
 
@@ -20,8 +22,10 @@ class NotesDAO {
                 .toList()
                 .subscribeBy(onError = {
                     emitter.onSuccess(emptyList())
+                    Timber.w("No notes loaded - $it")
                 }, onSuccess = {
                     emitter.onSuccess(it)
+                    Timber.d("Notes loaded successful")
                 })
     }
 
@@ -31,6 +35,7 @@ class NotesDAO {
                 .subscribeBy(onError = {
                     emitter.onError(Throwable("Note doesn't exist"))
                 }, onSuccess = {
+                    Timber.d("Note loaded $it")
                     emitter.onSuccess(it)
                 })
     }
