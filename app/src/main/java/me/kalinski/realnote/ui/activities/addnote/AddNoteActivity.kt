@@ -9,7 +9,7 @@ import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.activity_addnote.*
 import me.kalinski.realnote.R
 import me.kalinski.realnote.di.activities.BaseActivity
-import me.kalinski.realnote.storage.data.Note
+import me.kalinski.realnote.storage.models.Note
 import me.kalinski.realnote.utility.RichEditorUtils
 import me.kalinski.utils.extensions.children
 import me.kalinski.utils.extensions.toast

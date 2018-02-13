@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.row_note.*
 import me.kalinski.realnote.R
 import me.kalinski.realnote.di.activities.BaseActivity
-import me.kalinski.realnote.storage.data.Note
+import me.kalinski.realnote.storage.models.Note
 import me.kalinski.realnote.ui.activities.addnote.AddNoteActivity
 import me.kalinski.realnote.ui.activities.details.DetailsActivity
 import me.kalinski.realnote.ui.activities.main.adapter.NotesListAdapter

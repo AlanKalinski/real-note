@@ -1,4 +1,4 @@
-package me.kalinski.realnote.storage.data
+package me.kalinski.realnote.storage.models
 
 import android.os.Parcel
 import android.os.Parcelable

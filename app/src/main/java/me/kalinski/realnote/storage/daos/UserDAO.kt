@@ -8,7 +8,7 @@ import io.reactivex.Single
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import me.kalinski.realnote.storage.Constants
-import me.kalinski.realnote.storage.data.Note
+import me.kalinski.realnote.storage.models.Note
 import me.kalinski.realnote.storage.models.User
 import timber.log.Timber
 import javax.inject.Inject

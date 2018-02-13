@@ -1,8 +1,7 @@
 package me.kalinski.realnote.ui.activities.addnote
 
-import me.kalinski.realnote.storage.data.Note
-import me.kalinski.realnote.storage.data.NotesRepository
+import me.kalinski.realnote.storage.models.Note
 
 interface IAddNoteInteractor {
-    fun saveNote(note: Note, callback: NotesRepository.SaveNoteCallback)
+    fun saveNote(note: Note)
 }

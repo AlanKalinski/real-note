@@ -5,7 +5,7 @@ import android.support.v7.widget.Toolbar
 import kotlinx.android.synthetic.main.activity_details.*
 import me.kalinski.realnote.R
 import me.kalinski.realnote.di.activities.BaseActivity
-import me.kalinski.realnote.storage.data.Note
+import me.kalinski.realnote.storage.models.Note
 import me.kalinski.realnote.ui.activities.main.MainActivity
 import me.kalinski.utils.extensions.fromHtml
 import me.kalinski.utils.extensions.getNavigationId

@@ -2,7 +2,7 @@ package me.kalinski.realnote.ui.activities.main.adapter
 
 import android.view.ViewGroup
 import me.kalinski.realnote.R
-import me.kalinski.realnote.storage.data.Note
+import me.kalinski.realnote.storage.models.Note
 import me.kalinski.utils.adapters.universalrecycler.UniversalAdapter
 import me.kalinski.utils.adapters.universalrecycler.UniversalViewHolder
 import me.kalinski.utils.adapters.universalrecycler.listeners.RowItemClick
