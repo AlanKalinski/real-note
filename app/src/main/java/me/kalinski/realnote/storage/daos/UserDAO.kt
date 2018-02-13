@@ -3,7 +3,7 @@ package me.kalinski.realnote.storage.daos
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import durdinapps.rxfirebase2.RxFirestore
-import io.reactivex.Observable
+import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
@@ -59,28 +59,8 @@ class UserDAO @Inject constructor() {
 
     private fun update(user: User) = RxFirestore.setDocument(collection.document(user.email), user)
 
-/*
-    fun linkNote(document: DocumentReference): Single<Boolean> = Single.create { emitter ->
-        RxFirestore.getDocument(collection.document(actualUser?.email ?: ""))
-                .map { it.toObject(User::class.java) }
-                .subscribeBy(onError = {
-                    Timber.w(it)
-                    emitter.onError(it)
-                }, onSuccess = {
-                    val notes = it.notes.toMutableList()
-                    it.notes.add(document)
-                    update(it).subscribeBy(onError = {
-                        Timber.w(it)
-                        emitter.onSuccess(false)
-                    }, onComplete = {
-                        emitter.onSuccess(true)
-                    })
-                })
-    }
-*/
-
-    fun linkNotes(notes: List<Note>) = Single.create<Boolean> { emitter ->
-        Observable.fromIterable(notes)
+    fun linkNotes(notes: Flowable<Note>) = Single.create<Boolean> { emitter ->
+        notes
                 .map { reference.collection(Constants.Database.NOTES_TABLE).document(it.uid!!) }
                 .toList()
                 .subscribeBy(onError = {

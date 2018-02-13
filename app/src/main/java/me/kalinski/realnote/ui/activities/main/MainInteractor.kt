@@ -1,5 +1,6 @@
 package me.kalinski.realnote.ui.activities.main
 
+import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.subscribeBy
 import me.kalinski.realnote.storage.daos.NotesDAO
@@ -14,7 +15,7 @@ class MainInteractor @Inject constructor(
 ) : IMainInteractor {
     override fun loadNotes(): Single<List<Note>> = Single.create { emitter ->
         userDAO.actualUser?.notes?.let {
-            notesDAO.getReferencedNotes(it)
+            notesDAO.getReferencedNotes(Flowable.fromIterable(it))
                     .subscribeBy(onError = {
                         Timber.w(it)
                         emitter.onError(it)

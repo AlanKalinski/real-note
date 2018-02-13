@@ -81,7 +81,7 @@ class MainActivity : BaseActivity(), MainView {
     override fun showNotes(notes: List<Note>) {
         Timber.d("Notes loaded: %s", notes.toString())
         layoutManager.smoothScrollToPosition(notesRecycler, null, 0)
-        listAdapter.itemList = notes
+        listAdapter.itemList = notes.sortedByDescending { it.editDate }
     }
 
     override fun showProgress() {

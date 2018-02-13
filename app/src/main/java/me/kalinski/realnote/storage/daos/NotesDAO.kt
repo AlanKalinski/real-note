@@ -3,7 +3,7 @@ package me.kalinski.realnote.storage.daos
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import durdinapps.rxfirebase2.RxFirestore
-import io.reactivex.Observable
+import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.subscribeBy
 import me.kalinski.realnote.storage.Constants
@@ -18,8 +18,8 @@ class NotesDAO @Inject constructor(
     private val reference = FirebaseFirestore.getInstance()
     private val collection = reference.collection(Constants.Database.NOTES_TABLE)
 
-    fun getReferencedNotes(documentReferences: Iterable<DocumentReference>) = Single.create<List<Note>> { emitter ->
-        Observable.fromIterable(documentReferences)
+    fun getReferencedNotes(documentReferences: Flowable<DocumentReference>) = Single.create<List<Note>> { emitter ->
+        documentReferences
                 .flatMapMaybe { RxFirestore.getDocument(it) }
                 .map({ it.toObject(Note::class.java) })
                 .toList()
@@ -32,8 +32,8 @@ class NotesDAO @Inject constructor(
                 })
     }
 
-    fun insertOrUpdate(notes: List<Note>) = Single.create<Boolean> { emitter ->
-        Observable.fromIterable(notes)
+    fun insertOrUpdate(notes: Flowable<Note>) = Single.create<Boolean> { emitter ->
+        notes
                 .map {
                     if (it.uid == null)
                         it.uid = collection.document().id
