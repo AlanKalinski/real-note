@@ -100,7 +100,7 @@ class MainActivity : BaseActivity(), MainView {
             intent.putExtra(NOTE_INTENT_CONSTANT, item)
 
             navigate<DetailsActivity>(
-                    item.id,
+                    item.uid,
                     intent,
                     Pair.create(noteTitle, noteTitle.transitionName),
                     Pair.create(noteDescription, noteDescription.transitionName)

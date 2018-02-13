@@ -11,7 +11,7 @@ data class User(
         var photoUrl: String = "",
         var providerId: String = "",
         var uid: String = email,
-        var notes: List<DocumentReference> = emptyList()
+        var notes: MutableList<DocumentReference> = mutableListOf()
 ) : Parcelable {
     constructor(source: Parcel) : this(
             source.readString(),

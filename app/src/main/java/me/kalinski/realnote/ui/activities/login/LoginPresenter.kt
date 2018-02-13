@@ -69,7 +69,7 @@ class LoginPresenter @Inject constructor(
     }
 
     override fun syncUser(user: FirebaseUser) {
-        userDAO.insertOrUpdateUser(user)
+        userDAO.insertOrUpdate(user)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(onError = {

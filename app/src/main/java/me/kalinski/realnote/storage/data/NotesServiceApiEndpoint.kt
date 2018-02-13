@@ -1,12 +1,11 @@
 package me.kalinski.realnote.storage.data
 
-import android.support.v4.util.ArrayMap
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 object NotesServiceApiEndpoint {
 
-    private val DATA: ArrayMap<String, Note> = ArrayMap(3)
+    private val DATA: MutableList<Note> = mutableListOf()
 
     init {
         addNote("Klucze Dreamspark", "Windows 8.1 PL Pro : 0000-0000-0000-0000-0000<br>" +
@@ -47,13 +46,13 @@ object NotesServiceApiEndpoint {
 
     private fun addNote(title: String, description: String, imageUrl: String? = null) {
         val newNote = Note(title, description, editDate = (Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1)).time), imageUrl = imageUrl)
-        DATA.put(newNote.id, newNote)
+        DATA.add(newNote)
     }
 
     /**
      * @return the Notes to show when starting the app.
      */
-    fun loadPersistedNotes(): ArrayMap<String, Note> {
-        return DATA
+    fun loadPersistedNotes(): MutableList<Note> {
+        return /*DATA*/mutableListOf()
     }
 }

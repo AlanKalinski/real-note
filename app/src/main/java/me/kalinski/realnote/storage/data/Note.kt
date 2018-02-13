@@ -11,15 +11,14 @@ data class Note constructor(
         var editDate: Long = Date().time,
         var createDate: Long = editDate,
         var imageUrl: String? = "",
-        var uid: String = ""
+        var uid: String? = null
 ) : BaseItemObject, Parcelable {
-    val id: String = UUID.randomUUID().toString()
-
     override fun differenceItem(): String = toString()
+
     override fun viewType(): Int = 0
 
     override fun toString(): String {
-        return "Note(title='$title', description='$description', editDate=$editDate, createDate=$createDate, imageUrl=$imageUrl, viewType=${viewType()}, id='$id')"
+        return "Note(title='$title', description='$description', editDate=$editDate, createDate=$createDate, imageUrl=$imageUrl, viewType=${viewType()}, uid='${this.uid}')"
     }
 
     constructor(source: Parcel) : this(

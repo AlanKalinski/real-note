@@ -3,21 +3,23 @@ package me.kalinski.realnote.storage.daos
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import durdinapps.rxfirebase2.RxFirestore
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
+import me.kalinski.realnote.storage.Constants
+import me.kalinski.realnote.storage.data.Note
 import me.kalinski.realnote.storage.models.User
 import timber.log.Timber
 import javax.inject.Inject
 
-const val USERS_TABLE = "Users"
-
 class UserDAO @Inject constructor() {
     private val reference = FirebaseFirestore.getInstance()
-    private val collection = reference.collection(USERS_TABLE)
+    private val collection = reference.collection(Constants.Database.USERS_TABLE)
 
     var actualUser: User? = null
 
-    fun insertOrUpdateUser(user: FirebaseUser) = Single.create<User> { emitter ->
+    fun insertOrUpdate(user: FirebaseUser) = Single.create<User> { emitter ->
         RxFirestore.getDocument(collection.document(user.email ?: ""))
                 .map({ it.toObject(User::class.java) })
                 .toSingle()
@@ -32,15 +34,12 @@ class UserDAO @Inject constructor() {
                     )
 
                     actualUser = newUser
-                    RxFirestore.setDocument(collection.document(newUser.email), newUser)
-                            .subscribeBy(
-                                    onError = {
-                                        emitter.onError(it)
-                                    },
-                                    onComplete = {
-                                        emitter.onSuccess(newUser)
-                                    }
-                            )
+                    update(newUser).subscribeBy(onError = {
+                        Timber.w(it)
+                        emitter.onError(it)
+                    }, onComplete = {
+                        emitter.onSuccess(newUser)
+                    })
                 }, onSuccess = {
                     it.displayName = user.displayName ?: ""
                     it.phoneNumber = user.phoneNumber ?: ""
@@ -49,15 +48,60 @@ class UserDAO @Inject constructor() {
                     Timber.d("User $it ")
 
                     actualUser = it
-                    RxFirestore.setDocument(collection.document(it.email), it)
-                            .subscribeBy(
-                                    onError = {
-                                        emitter.onError(it)
-                                    },
-                                    onComplete = {
-                                        emitter.onSuccess(it)
-                                    }
-                            )
+                    update(it).subscribeBy(onError = {
+                        Timber.w(it)
+                        emitter.onError(it)
+                    }, onComplete = {
+                        emitter.onSuccess(it)
+                    })
+                })
+    }
+
+    private fun update(user: User) = RxFirestore.setDocument(collection.document(user.email), user)
+
+/*
+    fun linkNote(document: DocumentReference): Single<Boolean> = Single.create { emitter ->
+        RxFirestore.getDocument(collection.document(actualUser?.email ?: ""))
+                .map { it.toObject(User::class.java) }
+                .subscribeBy(onError = {
+                    Timber.w(it)
+                    emitter.onError(it)
+                }, onSuccess = {
+                    val notes = it.notes.toMutableList()
+                    it.notes.add(document)
+                    update(it).subscribeBy(onError = {
+                        Timber.w(it)
+                        emitter.onSuccess(false)
+                    }, onComplete = {
+                        emitter.onSuccess(true)
+                    })
+                })
+    }
+*/
+
+    fun linkNotes(notes: List<Note>) = Single.create<Boolean> { emitter ->
+        Observable.fromIterable(notes)
+                .map { reference.collection(Constants.Database.NOTES_TABLE).document(it.uid!!) }
+                .toList()
+                .subscribeBy(onError = {
+                    Timber.w(it)
+                    emitter.onError(it)
+                }, onSuccess = {
+                    val notesRef = it
+                    actualUser?.let {
+                        it.notes.addAll(notesRef)
+                        update(it)
+                                .subscribeOn(Schedulers.io())
+                                .subscribeBy(onError = {
+                                    Timber.w(it)
+                                    emitter.onSuccess(false)
+                                }, onComplete = {
+                                    Timber.d("User updated")
+                                    emitter.onSuccess(true)
+                                })
+                    } ?: kotlin.run {
+                        emitter.onError(Throwable("No user logged in!"))
+                    }
                 })
     }
 }
