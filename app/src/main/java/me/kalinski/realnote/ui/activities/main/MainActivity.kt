@@ -111,10 +111,7 @@ class MainActivity : BaseActivity(), MainView {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_ADD_NOTE) {
             if (resultCode == Activity.RESULT_OK) {
-                data?.let {
-                    val receivedNote: Note = data.extras.getParcelable(AddNoteActivity.ADDED_NOTE)
-//                    addNote(receivedNote)
-                }
+                requestForNotes()
             }
         }
     }

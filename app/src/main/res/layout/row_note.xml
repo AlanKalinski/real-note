@@ -18,20 +18,21 @@
             android:id="@+id/noteTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/primary_text"
-            android:transitionName="noteTitle"
             android:padding="4dp"
+            android:textColor="@color/primary_text"
             android:textSize="18sp"
+            android:transitionName="noteTitle"
             tools:text="Sample title" />
 
         <TextView
             android:id="@+id/noteDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:transitionName="noteDescription"
-            android:textColor="@color/secondary_text"
+            android:ellipsize="end"
             android:padding="4dp"
+            android:textColor="@color/secondary_text"
             android:textSize="12sp"
+            android:transitionName="noteDescription"
             app:layout_constraintTop_toBottomOf="@+id/noteTitle"
             tools:text="Sample desc" />
     </LinearLayout>
