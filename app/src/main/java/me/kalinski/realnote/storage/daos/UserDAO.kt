@@ -59,7 +59,7 @@ class UserDAO @Inject constructor() {
 
     private fun update(user: User) = RxFirestore.setDocument(collection.document(user.email), user)
 
-    fun linkNotes(notes: Flowable<Note>) = Single.create<Boolean> { emitter ->
+    fun linkNotes(notes: Flowable<Note>, user: User? = actualUser) = Single.create<Boolean> { emitter ->
         notes
                 .map { reference.collection(Constants.Database.NOTES_TABLE).document(it.uid!!) }
                 .toList()
@@ -68,7 +68,7 @@ class UserDAO @Inject constructor() {
                     emitter.onError(it)
                 }, onSuccess = {
                     val notesRef = it
-                    actualUser?.let {
+                    user?.let {
                         it.notes.addAll(notesRef)
                         update(it)
                                 .subscribeOn(Schedulers.io())
@@ -83,5 +83,16 @@ class UserDAO @Inject constructor() {
                         emitter.onError(Throwable("No user logged in!"))
                     }
                 })
+    }
+
+    fun getAllUsers(): Single<List<User>> = Single.create { emitter ->
+        RxFirestore.getCollection(collection)
+                .map { it.toObjects(User::class.java) }
+                .subscribeBy(onError = {
+                    emitter.onError(it)
+                }, onSuccess = {
+                    emitter.onSuccess(it)
+                }
+                )
     }
 }

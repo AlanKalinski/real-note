@@ -5,15 +5,10 @@
     android:layout_height="match_parent"
     android:background="@color/appBackground">
 
-    <include
-        android:id="@+id/bar"
-        layout="@layout/appbar_layout" />
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/bar">
+        android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/notesRecycler"
@@ -29,8 +24,8 @@
         android:layout_alignParentEnd="true"
         android:layout_margin="8dp"
         android:src="@android:drawable/ic_input_add"
-        app:rippleColor="@color/primary"
         android:transitionName="addBtn"
-        app:fabSize="mini" />
+        app:fabSize="mini"
+        app:rippleColor="@color/primary" />
 
 </RelativeLayout>

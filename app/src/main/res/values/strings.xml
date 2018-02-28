@@ -13,5 +13,8 @@
     <string name="sign_in_email">Sign in with email</string>
     <string name="available_soon">Available soon...</string>
     <string name="login_required">To use the application, log in to one of the available methods.</string>
+    <string name="share">Share</string>
+    <string name="share_email">Type email to share</string>
+    <string name="share_button">Share</string>
 
 </resources>

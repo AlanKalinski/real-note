@@ -14,7 +14,7 @@ import me.kalinski.utils.extensions.children
 import me.kalinski.utils.extensions.toast
 import javax.inject.Inject
 
-class AddNoteActivity : BaseActivity(), AddNoteView {
+class AddNoteActivity : BaseActivity(_showToolbar = false), AddNoteView {
 
     companion object {
         const val ADDED_NOTE: String = "ADDED_NOTE"

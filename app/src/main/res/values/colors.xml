@@ -11,4 +11,6 @@
 
     <color name="appBackground">#DDDDDD</color>
     <color name="cardBackground">#FFFFFF</color>
+
+    <color name="splash_background">#80000000</color>
 </resources>

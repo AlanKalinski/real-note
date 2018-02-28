@@ -13,4 +13,7 @@
     <string name="sign_in_email">Zaloguj poprzez email</string>
     <string name="available_soon">Dostępne wkrótce</string>
     <string name="login_required">Aby korzystać z aplikacji należy się zalogować jedną z dostępnych metod.</string>
+    <string name="share">Udostępnij</string>
+    <string name="share_email">Wprowadź adres email do udostępnienia</string>
+    <string name="share_button">Udostępnij</string>
 </resources>

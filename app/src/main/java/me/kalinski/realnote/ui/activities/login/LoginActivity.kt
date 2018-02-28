@@ -17,7 +17,7 @@ import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 
-class LoginActivity : BaseActivity(), LoginView {
+class LoginActivity : BaseActivity(_showToolbar = false), LoginView {
 
     private val progress by lazy { indeterminateProgressDialog(getString(R.string.wait)) }
 

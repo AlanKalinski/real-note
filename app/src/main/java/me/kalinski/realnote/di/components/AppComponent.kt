@@ -1,6 +1,5 @@
 package me.kalinski.realnote.di.components
 
-import android.app.Application
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -25,6 +24,7 @@ import me.kalinski.realnote.di.scope.ApplicationScope
         InterceptorModule::class,
         RxModule::class,
         DeviceModule::class,
+        DisplayableModule::class,
         InfoModule::class
 ))
 @ApplicationScope

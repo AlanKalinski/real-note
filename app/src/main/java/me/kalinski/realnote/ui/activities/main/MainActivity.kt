@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.util.Pair
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.row_note.*
 import me.kalinski.realnote.R
@@ -20,7 +19,10 @@ import me.kalinski.utils.extensions.navigateForResult
 import timber.log.Timber
 import javax.inject.Inject
 
-class MainActivity : BaseActivity(), MainView {
+class MainActivity : BaseActivity(
+        _toolbarTitle = R.string.main_activity_title,
+        _showBackarrow = false
+), MainView {
 
     companion object {
         const val NOTE_INTENT_CONSTANT = "NOTE"
@@ -44,18 +46,9 @@ class MainActivity : BaseActivity(), MainView {
         NotesListAdapter(onRowClickLIstener())
     }
 
-    private var toolbar: Toolbar? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        toolbar = setupToolbar(
-                toolbarId = R.id.toolbar,
-                visible = true,
-                backArrowEnabled = false,
-                title = getString(R.string.main_activity_title)
-        )
 
         initViewComponents()
     }

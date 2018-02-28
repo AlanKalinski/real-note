@@ -1,9 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/toolbar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:elevation="4dp"
-    android:minHeight="?attr/actionBarSize"
-    app:popupTheme="@style/AppTheme.AppBarOverlay" />
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:popupTheme="@style/AppTheme.AppBarOverlay"
+        tools:background="?colorPrimary" />
+
+    <RelativeLayout
+        android:id="@+id/actionBarWrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignBottom="@id/toolbar"
+        android:layout_alignEnd="@id/toolbar"
+        android:layout_alignStart="@id/toolbar"
+        android:layout_alignTop="@id/toolbar">
+
+        <LinearLayout
+            android:id="@+id/actionbar_header"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/actionbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="2"
+                android:singleLine="false"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                tools:text="Ttile" />
+
+            <TextView
+                android:id="@+id/actionbar_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                android:visibility="gone"
+                tools:text="Subtitle"
+                tools:visibility="visible" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/actionbar_logo"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_centerInParent="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="Logo"
+            android:scaleType="centerInside"
+            android:visibility="gone"
+            tools:visibility="gone" />
+
+    </RelativeLayout>
+</RelativeLayout>
