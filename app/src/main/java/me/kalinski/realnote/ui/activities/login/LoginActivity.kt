@@ -11,11 +11,14 @@ import me.kalinski.firebaseauth.components.GoogleAuthentication
 import me.kalinski.firebaseauth.listeners.AuthorizationListener
 import me.kalinski.realnote.R
 import me.kalinski.realnote.di.activities.BaseActivity
+import me.kalinski.realnote.storage.Constants
 import me.kalinski.realnote.ui.activities.main.MainActivity
+import me.kalinski.realnote.ui.fragments.login.LoginFragment
 import me.kalinski.utils.extensions.navigate
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.toast
 import javax.inject.Inject
+
 
 class LoginActivity : BaseActivity(_showToolbar = false), LoginView {
 
@@ -31,6 +34,8 @@ class LoginActivity : BaseActivity(_showToolbar = false), LoginView {
 
         authorizationModule = GoogleAuthentication(this, authorizationListener(), getString(R.string.default_web_client_id))
 
+        if (intent?.extras?.getBoolean(Constants.LOG_OUT_ACTION, false) == true) authorizationModule?.signOut()
+
         initViewComponents()
     }
 
@@ -40,7 +45,7 @@ class LoginActivity : BaseActivity(_showToolbar = false), LoginView {
             authorizationModule?.signIn()
         }
         emailSignIn.setOnClickListener {
-            toast(getString(R.string.available_soon))
+            displayableProcessor.addToQueue(LoginFragment()).run { displayableProcessor.show() }
         }
         btnSignOut.setOnClickListener {
             showProgress()

@@ -16,4 +16,13 @@
     <string name="share">Udostępnij</string>
     <string name="share_email">Wprowadź adres email do udostępnienia</string>
     <string name="share_button">Udostępnij</string>
+    <string name="close_button">Zamknij</string>
+    <string name="register_button">Zarejestruj konto</string>
+    <string name="login_email">Email</string>
+    <string name="password">Hasło</string>
+    <string name="repeat_password">Powtórz hasło</string>
+    <string name="login_action">Zaloguj</string>
+    <string name="register_action">Zarejestruj</string>
+    <string name="login_button">Zaloguj się</string>
+    <string name="logout_action">Wyloguj</string>
 </resources>

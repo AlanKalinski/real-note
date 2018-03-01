@@ -5,19 +5,25 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.util.Pair
 import android.support.v7.widget.LinearLayoutManager
+import android.view.Menu
+import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.row_note.*
 import me.kalinski.realnote.R
 import me.kalinski.realnote.di.activities.BaseActivity
+import me.kalinski.realnote.storage.Constants
 import me.kalinski.realnote.storage.models.Note
 import me.kalinski.realnote.ui.activities.addnote.AddNoteActivity
 import me.kalinski.realnote.ui.activities.details.DetailsActivity
+import me.kalinski.realnote.ui.activities.login.LoginActivity
 import me.kalinski.realnote.ui.activities.main.adapter.NotesListAdapter
 import me.kalinski.utils.adapters.universalrecycler.listeners.RowItemClick
 import me.kalinski.utils.extensions.navigate
 import me.kalinski.utils.extensions.navigateForResult
 import timber.log.Timber
 import javax.inject.Inject
+
+const val LOG_OUT = 1
 
 class MainActivity : BaseActivity(
         _toolbarTitle = R.string.main_activity_title,
@@ -98,6 +104,24 @@ class MainActivity : BaseActivity(
                     Pair.create(noteTitle, noteTitle.transitionName),
                     Pair.create(noteDescription, noteDescription.transitionName)
             )
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        setRightAction(menu, LOG_OUT, 0, R.string.logout_action)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            LOG_OUT -> {
+                startActivity(Intent(this, LoginActivity::class.java).apply { putExtra(Constants.LOG_OUT_ACTION, true) })
+                finish()
+                return true
+            }
+            else -> {
+                return super.onOptionsItemSelected(item)
+            }
         }
     }
 

@@ -16,5 +16,14 @@
     <string name="share">Share</string>
     <string name="share_email">Type email to share</string>
     <string name="share_button">Share</string>
+    <string name="close_button">Close</string>
+    <string name="register_button">Register account</string>
+    <string name="login_email">Email</string>
+    <string name="password">Password</string>
+    <string name="repeat_password">Re-password</string>
+    <string name="login_action">Log in</string>
+    <string name="logout_action">Logout</string>
+    <string name="register_action">Sign In</string>
+    <string name="login_button">Log in with email</string>
 
 </resources>
