@@ -5,11 +5,14 @@ import durdinapps.rxfirebase2.RxFirebaseAuth
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import me.kalinski.realnote.storage.daos.UserDAO
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-class LoginPresenter @Inject constructor() : ILoginPresenter {
+class LoginPresenter @Inject constructor(
+        val userDAO: UserDAO
+) : ILoginPresenter {
 
     var mode: Modes by Delegates.observable(Modes.LOGIN, onChange = { _, oldValue, newValue ->
         if (oldValue != newValue) reloadViewDependOnMode()
@@ -43,9 +46,17 @@ class LoginPresenter @Inject constructor() : ILoginPresenter {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeBy(onError = {
-                            it.printStackTrace()
+                            Timber.w(it)
                         }, onSuccess = {
                             Timber.d("Login success : ${it.toString()}")
+                            userDAO.insertOrUpdate(it.user)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribeBy(onError = {
+                                        Timber.w(it)
+                                    }, onSuccess = {
+                                        view?.navigateToMain()
+                                    })
                         }, onComplete = {
                             Timber.d("Login completed")
                         })
@@ -56,9 +67,17 @@ class LoginPresenter @Inject constructor() : ILoginPresenter {
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeBy(onError = {
-                                it.printStackTrace()
+                                Timber.w(it)
                             }, onSuccess = {
                                 Timber.d("Register success : ${it.toString()}")
+                                userDAO.insertOrUpdate(it.user)
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribeBy(onError = {
+                                            Timber.w(it)
+                                        }, onSuccess = {
+                                            view?.navigateToMain()
+                                        })
                             }, onComplete = {
                                 Timber.d("Register completed")
                             })

@@ -9,11 +9,12 @@ import com.rengwuxian.materialedittext.MaterialEditText
 import me.kalinski.realnote.R
 import me.kalinski.realnote.di.activities.BaseFragment
 import me.kalinski.realnote.di.activities.utils.Displayable
+import me.kalinski.realnote.ui.activities.main.MainActivity
+import me.kalinski.utils.extensions.navigate
 import org.jetbrains.anko.support.v4.find
 import javax.inject.Inject
 
 class LoginFragment : BaseFragment(), ILoginView, Displayable {
-
     @Inject
     lateinit var presenter: ILoginPresenter
 
@@ -77,6 +78,14 @@ class LoginFragment : BaseFragment(), ILoginView, Displayable {
         repeat.visibility = View.VISIBLE
         actionButton.text = getString(R.string.register_action)
         changeStateButton.text = getString(R.string.login_button)
+    }
+
+    override fun navigateToMain() {
+        activity?.let {
+            activity?.onBackPressed()
+            it.navigate<MainActivity>()
+            it.finish()
+        }
     }
 
     override fun onDestroyView() {
