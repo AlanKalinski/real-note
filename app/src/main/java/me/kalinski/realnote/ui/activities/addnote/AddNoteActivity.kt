@@ -9,9 +9,12 @@ import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.activity_addnote.*
 import me.kalinski.realnote.R
 import me.kalinski.realnote.di.activities.BaseActivity
+import me.kalinski.realnote.storage.Constants
+import me.kalinski.realnote.storage.models.Note
 import me.kalinski.realnote.utility.RichEditorUtils
 import me.kalinski.utils.extensions.children
 import me.kalinski.utils.extensions.toast
+import java.util.*
 import javax.inject.Inject
 
 class AddNoteActivity : BaseActivity(_showToolbar = false), AddNoteView {
@@ -23,10 +26,19 @@ class AddNoteActivity : BaseActivity(_showToolbar = false), AddNoteView {
     @Inject
     lateinit var presenter: IAddNotePresenter
 
+    var note: Note = Note()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_addnote)
         showKeyboard()
+
+        val noteFromBundle = intent?.extras?.getParcelable<Note>(Constants.NOTE_BUNDLE)
+        noteFromBundle?.let {
+            note = it
+            editNote.html = it.description
+            noteTitle.setText(it.title)
+        }
 
         presenter.attachView(this)
 
@@ -39,7 +51,14 @@ class AddNoteActivity : BaseActivity(_showToolbar = false), AddNoteView {
         }
 
         setOnToolboxClick(findViewById(R.id.textToolbox))
-        btnSave.setOnClickListener { presenter.saveNote(noteTitle.text.toString(), editNote.html) }
+        btnSave.setOnClickListener {
+            note.apply {
+                editDate = Date().time
+                title = noteTitle.text.toString()
+                description = editNote.html
+            }
+            presenter.saveNote(note)
+        }
     }
 
     private fun setOnToolboxClick(viewGroup: ViewGroup?) {

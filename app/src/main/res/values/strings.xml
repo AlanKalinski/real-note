@@ -4,6 +4,7 @@
     <string name="main_activity_title">Your notes</string>
     <string name="insert_note_here_text">Insert note here</string>
     <string name="save">Save</string>
+    <string name="edit">Edit</string>
     <string name="note_saved_message">Note saved</string>
     <string name="error_log_in">Login proble occured</string>
     <string name="wait">Wait a sec...</string>
@@ -25,5 +26,6 @@
     <string name="logout_action">Logout</string>
     <string name="register_action">Sign In</string>
     <string name="login_button">Log in with email</string>
+    <string name="emptyNotesText">Wygląda na to, że nie posiadasz jeszcze żadnych notatek. Aby dodać nową, naciśnij tutaj.</string>
 
 </resources>

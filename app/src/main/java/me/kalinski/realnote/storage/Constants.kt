@@ -7,4 +7,5 @@ object Constants {
     }
 
     const val LOG_OUT_ACTION = "LOG_OUT_ACTION"
+    const val NOTE_BUNDLE = "NOTE_BUNDLE"
 }

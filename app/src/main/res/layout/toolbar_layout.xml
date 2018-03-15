@@ -17,21 +17,23 @@
         app:popupTheme="@style/AppTheme.AppBarOverlay"
         tools:background="?colorPrimary" />
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/actionBarWrapper"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignBottom="@id/toolbar"
         android:layout_alignEnd="@id/toolbar"
         android:layout_alignStart="@id/toolbar"
         android:layout_alignTop="@id/toolbar"
+        android:layout_centerInParent="true"
         android:background="@android:color/transparent">
 
         <LinearLayout
             android:id="@+id/actionbar_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
             android:gravity="center"
             android:orientation="vertical"
             tools:visibility="visible">
@@ -40,23 +42,26 @@
                 android:id="@+id/actionbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="2"
                 android:singleLine="false"
                 android:textColor="@android:color/white"
-                android:textSize="20sp"
+                android:textSize="12sp"
                 tools:text="Ttile" />
 
             <TextView
                 android:id="@+id/actionbar_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColor="@android:color/white"
+                android:textSize="10sp"
                 android:visibility="gone"
                 tools:text="Subtitle"
                 tools:visibility="visible" />
@@ -67,12 +72,13 @@
             android:id="@+id/actionbar_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_gravity="center"
             android:background="@android:color/transparent"
             android:contentDescription="Logo"
             android:scaleType="centerInside"
             android:visibility="gone"
             tools:visibility="gone" />
 
-    </RelativeLayout>
+    </FrameLayout>
+
 </RelativeLayout>

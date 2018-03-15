@@ -7,6 +7,7 @@ import android.support.v4.util.Pair
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.row_note.*
 import me.kalinski.realnote.R
@@ -70,16 +71,26 @@ class MainActivity : BaseActivity(
     }
 
     private fun initViewComponents() {
-        btnAdd.setOnClickListener {
-            navigateForResult<AddNoteActivity>(requestCode = REQUEST_ADD_NOTE, sharedElements = Pair.create(btnAdd, btnAdd.transitionName))
-        }
+        btnAdd.setOnClickListener { navigateToAddNote() }
+        emptyScreen.setOnClickListener { navigateToAddNote() }
         swipeRefresh.setOnRefreshListener { requestForNotes() }
         noteList
+    }
+
+    private fun navigateToAddNote() {
+        navigateForResult<AddNoteActivity>(requestCode = REQUEST_ADD_NOTE, sharedElements = Pair.create(btnAdd, btnAdd.transitionName))
     }
 
     override fun showNotes(notes: List<Note>) {
         Timber.d("Notes loaded: %s", notes.toString())
         layoutManager.smoothScrollToPosition(notesRecycler, null, 0)
+        if (notes.isNotEmpty()) {
+            emptyScreen.visibility = View.GONE
+            notesRecycler.visibility = View.VISIBLE
+        } else {
+            notesRecycler.visibility = View.GONE
+            emptyScreen.visibility = View.VISIBLE
+        }
         listAdapter.itemList = notes.sortedByDescending { it.editDate }
     }
 

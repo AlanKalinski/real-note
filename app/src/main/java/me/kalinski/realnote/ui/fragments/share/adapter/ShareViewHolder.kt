@@ -14,7 +14,7 @@ class ShareViewHolder(val view: View) : UniversalViewHolder<ShareUserWrapper>(vi
     val checkbox by lazy { view.find<AppCompatImageView>(R.id.checkbox) }
 
     override fun bindObject(obj: ShareUserWrapper, action: RowItemClick<ShareUserWrapper>?) {
-        displayName.text = obj.displayName
+        displayName.text = if (obj.displayName.isBlank()) obj.email else obj.displayName
         view.setOnClickListener {
             obj.checked = !obj.checked
             checkbox.visibility = if (obj.checked) View.VISIBLE else View.INVISIBLE

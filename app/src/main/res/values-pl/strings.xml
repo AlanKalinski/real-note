@@ -23,6 +23,8 @@
     <string name="repeat_password">Powtórz hasło</string>
     <string name="login_action">Zaloguj</string>
     <string name="register_action">Zarejestruj</string>
+    <string name="edit">Edycja</string>
     <string name="login_button">Zaloguj się</string>
     <string name="logout_action">Wyloguj</string>
+    <string name="emptyNotesText">Wygląda na to, że nie posiadasz jeszcze żadnych notatek. Aby dodać nową, naciśnij tutaj.</string>
 </resources>

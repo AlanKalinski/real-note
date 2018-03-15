@@ -5,12 +5,10 @@ import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import me.kalinski.realnote.storage.models.Note
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 
 class AddNotePresenter @Inject constructor(val interactor: IAddNoteInteractor) : IAddNotePresenter {
-    override fun saveNote(noteTitle: String, noteHtml: String) {
-        val noteToSave = Note(noteTitle, noteHtml, Date().time)
+    override fun saveNote(noteToSave: Note) {
         Timber.d("Note: %s", noteToSave.toString())
         interactor.saveNote(noteToSave)
                 .subscribeOn(Schedulers.io())
